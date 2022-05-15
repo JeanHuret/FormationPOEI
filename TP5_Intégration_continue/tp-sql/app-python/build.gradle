@@ -1,0 +1,20 @@
+task purge(type:Delete){
+    delete 'build'
+}
+
+task dependance(type:Exec, dependsOn:purge){
+    executable 'sh'
+    args '-c', 'pip install -r requirements.txt'
+      standardOutput = new ByteArrayOutputStream()
+
+      //extension method execSomething.output() can be used to obtain the output:
+      ext.output = {
+        return standardOutput.toString()
+      }}
+
+
+task packageDistribution(type:Zip, dependsOn:dependance){
+    from('/project') into ('.')
+    archiveFileName = 'demo-python.zip'
+    destinationDirectory = file('build')
+}
