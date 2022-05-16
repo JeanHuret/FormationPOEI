@@ -1,1 +1,30 @@
+TP 4 : Documentation
 
+Description de l’application :
+
+L’application s’utilise dans un terminal et permet de garder une liste des machines existantes dans
+l’entreprise et des applications présentes sur ces machines. Celle-ci propose des choix pour effectuer
+différentes actions autours des machines et des applications. Les données sont enregistrées dans une
+base SQL contenant deux tableaux : Machines et Disques. De plus l’application permet de sauvegarder
+vos données et vos bases de données. L'application se lance à partir de conteneurs gérés par kubernetes.
+
+Description des serveurs :
+
+• MySQL : c’est un serveur de base de données permettant d’insérer du contenu dans le code python.
+• Docker : C'est un outil qui peut empaqueter une application et ses dépendances dans un conteneur isolé, qui pourra être exécuté sur le serveur Kubernetes. 
+Ici nous avons un conteneur avec l'image de Python 3 ainsi qu'un conteneur avec l'image de MariaDB. 
+• Kubernetes : C'est un système open-source permettant d'automatiser le déploiement, la mise à l'échelle et la gestion des applications conteneurisées.
+Ici les deux conteneurs précédents y sont déployés. 
+Des ports sont utilisé pour la communication entre les deux conteneurs 
+
+Utilisation de l’application :
+
+Pour utiliser l'application il vous suffit de faire un git clone du Git HUB dans le dossier voulu et aller dans le TP4_docker_kubernetes :
+
+
+Pour utiliser l’application il vous suffit d’enregistrer le dossier TP3 dans votre espace de stockage.
+Puis dans un terminal aller dans le dossier précédemment créé avec la commande : cd ~/TP3
+Ensuite vous devez lancer le premier script avec la commande : sudo ./installation.sh
+Vous pouvez utiliser l’application et effectuer les actions souhaitées
+Pour finir vous devez lancer le deuxième script avec la commande : sudo ./sauvegarde.sh et entrez
+‘password’ lorsqu’il vous sera demandé ‘Enter password :’. 
