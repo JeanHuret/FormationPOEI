@@ -15,16 +15,16 @@ Description des serveurs :
 Ici nous avons un conteneur avec l'image de Python 3 ainsi qu'un conteneur avec l'image de MariaDB. 
 • Kubernetes : C'est un système open-source permettant d'automatiser le déploiement, la mise à l'échelle et la gestion des applications conteneurisées.
 Ici les deux conteneurs précédents y sont déployés. 
-Des ports sont utilisé pour la communication entre les deux conteneurs 
+Des ports sont utilisés pour la communication entre les deux conteneurs.
 
 Utilisation de l’application :
 
 Pour utiliser l'application il vous suffit de faire un git clone du Git HUB dans le dossier voulu et aller dans le TP4_docker_kubernetes :
+git clone https://github.com/JeanHuret/FormationPOEI.git
+
+Allez dans le terminal et placez-vous dans le dossier TP4_docker_kubernetes. Lancez la commande :
+kubectl create -f manifest.yaml
+kubectl apply -f manifest.yaml
 
 
-Pour utiliser l’application il vous suffit d’enregistrer le dossier TP3 dans votre espace de stockage.
-Puis dans un terminal aller dans le dossier précédemment créé avec la commande : cd ~/TP3
-Ensuite vous devez lancer le premier script avec la commande : sudo ./installation.sh
-Vous pouvez utiliser l’application et effectuer les actions souhaitées
-Pour finir vous devez lancer le deuxième script avec la commande : sudo ./sauvegarde.sh et entrez
-‘password’ lorsqu’il vous sera demandé ‘Enter password :’. 
+
