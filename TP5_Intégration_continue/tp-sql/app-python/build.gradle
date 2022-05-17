@@ -10,10 +10,17 @@ task dependance(type:Exec, dependsOn:purge){
       //extension method execSomething.output() can be used to obtain the output:
       ext.output = {
         return standardOutput.toString()
-      }}
+      }
+}
+  
+task lint (type:Exec, dependsOn:dependance){
+    executable 'sh'
+    args '-c', "flake8 --output-file=output.txt app/"
+    ignoreExitValue true
 
+}
 
-task packageDistribution(type:Zip, dependsOn:dependance){
+task packageDistribution(type:Zip, dependsOn:lint){
     from('/project') into ('.')
     archiveFileName = 'demo-python.zip'
     destinationDirectory = file('build')
