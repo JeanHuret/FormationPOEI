@@ -1,10 +1,9 @@
 FROM gradle
 
-COPY src/ /home/gradle/src
-COPY build.gradle /home/gradle/
+RUN mkdir /home/gradle/project
+RUN mkdir /home/gradle/build
+COPY tp-sql/app-python/ /home/gradle
 
 RUN apt update -yq && apt install -yq python3 python3-pip
-
-RUN pip install pytest 
 
 CMD gradle packageApp
