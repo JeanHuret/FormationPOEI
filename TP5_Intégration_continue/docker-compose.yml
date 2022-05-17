@@ -8,7 +8,7 @@ services:
     ports: 
       - "8098:8080"
       - "50000:50000"
-    image: jenkins/jenkins:lts
+    image: my_jenkins
     volumes:
       - jenkins_home:/var/jenkins_home
   
