@@ -1,9 +1,4 @@
-FROM gradle
+FROM jenkins
 
-RUN mkdir /home/gradle/project
-RUN mkdir /home/gradle/build
-COPY tp-sql/app-python/ /home/gradle
-
-RUN apt update -yq && apt install -yq python3 python3-pip
-
-CMD gradle packageApp
+RUN apt-get update -y 
+RUN apt-get install -y python3-pip python3-dev 
