@@ -13,7 +13,8 @@ services:
       && mkdir /etc/ansible
       && cd /etc/ansible/
       && touch hosts
-      && docker inspect --format='{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)>>docker_ip
+      && echo '[contaner]'>hosts
+      && docker inspect --format='{{.Name}} ansible_host={{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)>>hosts
     volumes:
       - ansible_vol:/var/ans
   host01:
