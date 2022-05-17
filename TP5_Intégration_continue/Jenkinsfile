@@ -27,25 +27,11 @@ pipeline {
     }
   }
   post {
-      success {
-        plot csvFileName: 'build/flake8.csv', 
-                    csvSeries: [[
-                                        file: 'build/flake8.csv',
-                                        exclusionValues: '',
-                                        displayTableFlag: false,
-                                        inclusionFlag: 'OFF',
-                                        url: '']],
-                    group: 'DeutschQuality',
-                    title: 'Rapport de qualité',
-                    style: 'line',
-                    exclZero: false,
-                    keepRecords: false,
-                    logarithmic: false,
-                    numBuilds: '',
-                    useDescr: false,
-                    yaxis: '',
-                    yaxisMaximum: '',
-                    yaxisMinimum: ''
-      }
+       always{
+            xunit (
+                thresholds: [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
+                tools: [ BoostTest(pattern: 'boost/*.xml') ]
+            )
+        }
+    }
  }
-}
