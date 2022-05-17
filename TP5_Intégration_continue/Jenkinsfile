@@ -16,6 +16,36 @@ pipeline {
         sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle lint'
         sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle packageDistribution'
       }
+    stage('Rapport qualité'){
+      tools {
+        gradle 'gradle'
+      }
+      steps {
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle lint'
+      }
+    }
+  }
+  post {
+      success {
+        plot csvFileName: 'build/flake8.csv', 
+                    csvSeries: [[
+                                        file: 'build/flake8.csv',
+                                        exclusionValues: '',
+                                        displayTableFlag: false,
+                                        inclusionFlag: 'OFF',
+                                        url: '']],
+                    group: 'Plot Group',
+                    title: 'Plot Title',
+                    style: 'line',
+                    exclZero: false,
+                    keepRecords: false,
+                    logarithmic: false,
+                    numBuilds: '',
+                    useDescr: false,
+                    yaxis: '',
+                    yaxisMaximum: '',
+                    yaxisMinimum: ''
+      }
  }
  }
 }
