@@ -16,6 +16,7 @@ pipeline {
         sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle lint'
         sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle packageDistribution'
       }
+    } 
     stage('Rapport qualité'){
       tools {
         gradle 'gradle'
