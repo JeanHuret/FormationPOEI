@@ -1,0 +1,21 @@
+pipeline {
+ agent any
+  stages {
+    stage('clone'){
+      steps {
+        git url: 'https://github.com/JeanHuret/FormationPOEI.git'
+      }
+    }
+    stage('Build'){
+      tools {
+        gradle 'gradle'
+      }
+      steps {
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python'
+        sh 'gradle purge'
+        sh 'gradle dependance'
+        sh 'gradle packageDistribution'
+      }
+ }
+ }
+}
