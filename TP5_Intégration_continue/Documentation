@@ -6,25 +6,50 @@ L’application s’utilise dans un terminal et permet de garder une liste des m
 l’entreprise et des applications présentes sur ces machines. Celle-ci propose des choix pour effectuer
 différentes actions autours des machines et des applications. Les données sont enregistrées dans une
 base SQL contenant deux tableaux : Machines et Disques. De plus l’application permet de sauvegarder
-vos données et vos bases de données. L'application se lance à partir de conteneurs gérés par kubernetes.
+vos données et vos bases de données. 
 
-Description des serveurs :
+Utilisation du build.gradle :
 
-• MySQL : c’est un serveur de base de données permettant d’insérer du contenu dans le code python.
-• Docker : C'est un outil qui peut empaqueter une application et ses dépendances dans un conteneur isolé, qui pourra être exécuté sur le serveur Kubernetes. 
-Ici nous avons un conteneur avec l'image de Python 3 ainsi qu'un conteneur avec l'image de MariaDB. 
-• Kubernetes : C'est un système open-source permettant d'automatiser le déploiement, la mise à l'échelle et la gestion des applications conteneurisées.
-Ici les deux conteneurs précédents y sont déployés. 
-Des ports sont utilisés pour la communication entre les deux conteneurs.
-
-Utilisation de l’application :
-
-Pour utiliser l'application il vous suffit de faire un git clone du Git HUB dans le dossier voulu et aller dans le TP4_docker_kubernetes :
+Pour utiliser l'application il vous suffit de faire un git clone du Git HUB dans le dossier voulu et aller dans le TP5_Intégration_continue :
 git clone https://github.com/JeanHuret/FormationPOEI.git
 
-Allez dans le terminal et placez-vous dans le dossier TP4_docker_kubernetes. Lancez la commande :
-kubectl create -f manifest.yaml
-kubectl apply -f manifest.yaml
+- Placez-vous dans le dossier tp-sql : cd tp-sql
+- Lancez le build de l'image de gradle : docker build -t my_gradle .
+- Lancez le run de l'image créée : docker run -it my_gradle bash
+- Lancez les taches souhaitées : gradle purge
+                                 gradle dependance
+                                 gradle lint
+                                 gradle packageDistribution
+                                
+Utilisation de Jenkins :
+
+- Replacez vous dans le dossier TP5_Intégration_continue
+- Lancez le build de l'image jenkins : docker build -t my_jenkins .
+- lancez le docker-compose de gradle et jenkins : docker-compose up -d 
+- Sur une page web allez à l'adresse  http://localhost:8098
+- Lancez le container jenkins : docker container ls
+                                docker exec -it <id du containeur> bash
+                                cat /var/jenkins_home/secrets/initialAdminPassword
+- Copiez le code affiché dans Jenkins 
+- Configurez les plugins (vous pouvez laisser les plugins recommandés)
+- Configurez votre compte admin
+
+- Allez dans 'Manage Jenkins' 
+- Allez dans 'Global Tool Configuration' puis cliquez sur 'add gradle', ajoutez le nom 'gradle' ensuite cliquez sur 'save'
+- Allez dans 'Manage plugins' puis cliquez sur 'Available', tapez 'plot', cochez la bonne case puis cliquez sur 'install without restart'
+
+Création du job : 
+
+- Retournez dans le dashboard
+- Cliquez sur New item 
+- Choisissez le nom du job et cliquez sur 'pipeline' puis 'Ok'
+- Cliquez sur 'Definition' dans la session pipeline et choisissez 'Pipeline script from SCM'
+- Choisissez 'GIT' dans le menu déroulant 'SCM'
+- Entrez 'https://github.com/JeanHuret/FormationPOEI.git' dans le 'repository URL' 
+- Entrez 'TP5_Intégration_continue/Jenkinsfile' dans le 'Script Path'
+- Cliquez sur 'save'
+- Lancez le build en cliquant sur 'Build Now'
+
 
 
 
