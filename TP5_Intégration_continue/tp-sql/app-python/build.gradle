@@ -15,8 +15,7 @@ task dependance(type:Exec, dependsOn:purge){
   
 task lint (type:Exec, dependsOn:dependance){
     executable 'sh'
-    args '-c', "mkdir -p test-reports/flake8 && flake8 . --output-file=test-reports/flake8/flake8.txt &&
-    flake8_junit test-reports/flake8/flake8.txt test-reports/flake8/flake8_junit.xml"
+    args '-c', 'mkdir -p test-reports/flake8 && flake8 . --output-file=test-reports/flake8/flake8.txt && flake8_junit test-reports/flake8/flake8.txt test-reports/flake8/flake8_junit.xml'
     ignoreExitValue true
 }
 
