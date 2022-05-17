@@ -15,7 +15,7 @@ task dependance(type:Exec, dependsOn:purge){
   
 task lint (type:Exec, dependsOn:dependance){
     executable 'sh'
-    args '-c', "flake8 --output-file=output.txt app/"
+    args '-c', "flake8 --output-file=output.txt app/ && flake8-junit-report"
     ignoreExitValue true
 
 }
