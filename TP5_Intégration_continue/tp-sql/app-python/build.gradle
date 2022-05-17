@@ -1,0 +1,27 @@
+task purge(type:Delete){
+    delete 'build'
+}
+
+task dependance(type:Exec, dependsOn:purge){
+    executable 'sh'
+    args '-c', 'pip install -r requirements.txt'
+      standardOutput = new ByteArrayOutputStream()
+
+      //extension method execSomething.output() can be used to obtain the output:
+      ext.output = {
+        return standardOutput.toString()
+      }
+}
+  
+task lint (type:Exec, dependsOn:dependance){
+    executable 'sh'
+    args '-c', "mkdir -p test-reports/flake8 && flake8 . --output-file=test-reports/flake8/flake8.txt &&
+    flake8_junit test-reports/flake8/flake8.txt test-reports/flake8/flake8_junit.xml"
+    ignoreExitValue true
+}
+
+task packageDistribution(type:Zip, dependsOn:lint){
+    from('/project') into ('.')
+    archiveFileName = 'demo-python.zip'
+    destinationDirectory = file('build')
+}
