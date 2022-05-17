@@ -11,10 +11,9 @@ pipeline {
         gradle 'gradle'
       }
       steps {
-        sh 'cd TP5_Intégration_continue/tp-sql/app-python'
-        sh 'gradle purge'
-        sh 'gradle dependance'
-        sh 'gradle packageDistribution'
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle purge'
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle dependance'
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle packageDistribution'
       }
  }
  }
