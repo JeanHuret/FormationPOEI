@@ -1,0 +1,9 @@
+[servers]
+
+[app]
+appubuntu
+appcentos
+
+[db]
+dbubuntu
+dbcentos
