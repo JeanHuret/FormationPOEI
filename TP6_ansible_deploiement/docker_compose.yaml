@@ -12,6 +12,37 @@ services:
       && /bin/sh
     volumes:
       - ansible_vol:/var/ans
+  
+ services:
+ gradle:
+   build: ./
+   image: gradle
+   container_name: gradle
+ jenkins:
+   ports: 
+     - "8098:8080"
+     - "50000:50000"
+   command : >
+     bash -c "apt update && apt upgrade -y 
+     &&  DEBIAN_FRONTEND=noninteractive 
+     &&  mkdir -p /run/sshd
+     &&  apt install -y apt --no-install-recommends openssh-server  
+     &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+     &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+     &&  echo 'root:toor' | chpasswd 
+     && /usr/sbin/sshd -D"
+   expose: 
+     - 22
+   image: my_jenkins
+   volumes:
+     - jenkins_home:/var/jenkins_home
+  
+volumes:
+  jenkins_home: {}
+  
+  
+  
+  
   host01:
     links:
       - master
