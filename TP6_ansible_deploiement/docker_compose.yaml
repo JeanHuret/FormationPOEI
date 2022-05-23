@@ -1,5 +1,18 @@
 version: "3.7"
+
 services:
+  gradle:
+    build: ./
+    image: gradle
+    container_name: gradle
+  jenkins:
+    ports: 
+      - "8098:8080"
+      - "50000:50000"
+    image: my_jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home
+  
   master:
     image: alpine:latest
     container_name: master01
@@ -8,83 +21,58 @@ services:
     tty: true
     command : >
       /bin/sh -c "apk update 
-      &&  apk add ansible openssh-server openssh
-      && /bin/sh
+      apk add ansible openssh-server openssh
+      /bin/sh"
     volumes:
       - ansible_vol:/var/ans
+      - ./files/:/files/
   
- services:
- gradle:
-   build: ./
-   image: gradle
-   container_name: gradle
- jenkins:
-   ports: 
-     - "8098:8080"
-     - "50000:50000"
-   command : >
-     bash -c "apt update && apt upgrade -y 
-     &&  DEBIAN_FRONTEND=noninteractive 
-     &&  mkdir -p /run/sshd
-     &&  apt install -y apt --no-install-recommends openssh-server  
-     &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-     &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-     &&  echo 'root:toor' | chpasswd 
-     && /usr/sbin/sshd -D"
-   expose: 
-     - 22
-   image: my_jenkins
-   volumes:
-     - jenkins_home:/var/jenkins_home
-  
-volumes:
-  jenkins_home: {}
-  
-  
-  
-  
-  host01:
-    links:
-      - master
-    image: centos:7
-    container_name: host01
-    hostname: host01
-    stdin_open: true
-    tty: true
-    command: >
-      /bin/sh -c "yum update -y 
-      &&  yum install -y openssh-server python 
-      &&  yum clean all 
-      &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
-      &&  echo 'root:toor' | chpasswd 
-      &&  ssh-keygen -A
-      && /usr/sbin/sshd -D
-    expose: 
-      - 22
-    volumes:
-     - ansible_vol:/var/ans
-  
-  host02:
+  host:
     links:
       - master
     image: ubuntu
-    container_name: host02
-    hostname: host02
+    container_name: application
+    hostname: application
     stdin_open: true
     tty: true
     command : >
-      bash -c "apt update && apt upgrade -y 
-      &&  DEBIAN_FRONTEND=noninteractive 
-      &&  mkdir -p /run/sshd
-      &&  apt install -y apt --no-install-recommends openssh-server  
-      &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-      &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-      &&  echo 'root:toor' | chpasswd 
-      && /usr/sbin/sshd -D"
+      /bin/sh -c "apt update 
+      apt upgrade -y 
+      DEBIAN_FRONTEND=noninteractive 
+      mkdir -p /run/sshd
+      apt install -y apt --no-install-recommends openssh-server python3 
+      sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+      sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config      
+      echo 'root:toor' | chpasswd 
+      /usr/sbin/sshd -D"
     expose: 
       - 22
     volumes:
      - ansible_vol:/var/ans
 
+  dbserver:
+      links:
+        - master
+      image: ubuntu
+      container_name: dbserver
+      hostname: dbserver
+      stdin_open: true
+      tty: true
+      command : >
+        /bin/sh -c "apt update && apt upgrade -y 
+        DEBIAN_FRONTEND=noninteractive 
+        mkdir /run/sshd 
+        apt install -y apt --no-install-recommends python3 openssh-server sudo 
+        sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+        sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+        echo 'root:toor' | chpasswd 
+        /usr/sbin/sshd -D"
+      expose: 
+        - 22
+      ports:
+        - 3306:3306
+      volumes:
+      - ansible_vol:/var/ans
 volumes:
   ansible_vol:
+  jenkins_home: {}
