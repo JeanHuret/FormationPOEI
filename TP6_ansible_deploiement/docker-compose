@@ -21,7 +21,7 @@ services:
       - master
     image: ubuntu
     container_name: host1
-    hostname: host1
+    hostname: appubuntu
     stdin_open: true
     tty: true
     command : >
@@ -44,6 +44,50 @@ services:
       - master
     image: centos:7
     container_name: host02
+    hostname: appcentos
+    stdin_open: true
+    tty: true
+    command: >
+      /bin/sh -c "yum update -y 
+      yum install -y openssh-server python 
+      yum clean all 
+      sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
+      echo 'root:toor' | chpasswd 
+      ssh-keygen -A
+      /usr/sbin/sshd -D"
+    expose: 
+      - 22
+    volumes:
+     - ansible_vol:/var/ans
+  
+  host3:
+    links:
+      - master
+    image: ubuntu
+    container_name: host3
+    hostname: dbubuntu
+    stdin_open: true
+    tty: true
+    command : >
+      /bin/sh -c "apt update 
+      apt upgrade -y 
+      DEBIAN_FRONTEND=noninteractive 
+      mkdir -p /run/sshd
+      apt install -y apt --no-install-recommends openssh-server python3 
+      sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+      sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config      
+      echo 'root:toor' | chpasswd 
+      /usr/sbin/sshd -D"
+    expose: 
+      - 22
+    volumes:
+     - ansible_vol:/var/ans
+
+  host04:
+    links:
+      - master
+    image: centos:7
+    container_name: dbcentos
     hostname: host02
     stdin_open: true
     tty: true
