@@ -49,12 +49,12 @@ services:
     tty: true
     command: >
       /bin/sh -c "yum update -y 
-      &&  yum install -y openssh-server python 
-      &&  yum clean all 
-      &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
-      &&  echo 'root:toor' | chpasswd 
-      &&  ssh-keygen -A
-      && /usr/sbin/sshd -D"
+      yum install -y openssh-server python 
+      yum clean all 
+      sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
+      echo 'root:toor' | chpasswd 
+      ssh-keygen -A
+      /usr/sbin/sshd -D"
     expose: 
       - 22
     volumes:
