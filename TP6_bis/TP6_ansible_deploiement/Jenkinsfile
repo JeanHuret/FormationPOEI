@@ -25,6 +25,7 @@ pipeline {
         sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle lint'
       }
     }
+  }
   post {
        always{
             junit (
