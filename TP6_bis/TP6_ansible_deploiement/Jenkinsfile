@@ -25,6 +25,15 @@ pipeline {
         sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle lint'
       }
     }
+      stage ('Ansible'){
+      tools {
+        ansible 'ansible'
+      }
+      steps {
+        sh 'cd TP6_ansible_deploiement && docker-compose up -d'
+        sh 'cd TP6_ansible_deploiement && docker exec -it master01 sh && ansible-playook playbook_tp6.yml'
+      }
+    } 
   }
   post {
        always{
