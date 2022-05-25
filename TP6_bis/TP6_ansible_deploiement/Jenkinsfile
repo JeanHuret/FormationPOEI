@@ -31,7 +31,7 @@ pipeline {
       }
       steps {
         sh 'cd TP6_ansible_deploiement && docker-compose up -d'
-        sh 'cd TP6_ansible_deploiement && docker exec -it master01 sh && ansible-playook playbook_tp6.yml'
+        sh 'cd TP6_ansible_deploiement && docker exec -it master01 sh && ansible-playook playbook.yml'
       }
     }   
   }
