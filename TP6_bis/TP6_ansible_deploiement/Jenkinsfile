@@ -1,0 +1,46 @@
+pipeline {
+ agent any
+  stages {
+    stage('clone'){
+      steps {
+        git url: 'https://github.com/JeanHuret/FormationPOEI.git'
+      }
+    }
+    stage('Build'){
+      tools {
+        gradle 'gradle'
+      }
+      steps {
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle purge'
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle dependance'
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle lint'
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle packageDistribution'
+      }
+    } 
+    stage('Rapport qualité'){
+      tools {
+        gradle 'gradle'
+      }
+      steps {
+        sh 'cd TP5_Intégration_continue/tp-sql/app-python && gradle lint'
+      }
+    }
+    stage ('Ansible'){
+      tools {
+        ansible 'ansible'
+      }
+      steps {
+        sh 'cd TP6_ansible_deploiement && docker-compose up -d'
+        sh 'cd TP6_ansible_deploiement && docker exec -it master01 sh && ansible-playook playbook_tp6.yml'
+      }
+    }   
+  }
+  post {
+       always{
+            junit (
+              allowEmptyResults: true,
+              testResults: 'test-reports/flake8/*.xml'
+            )
+        }
+    }
+ }
