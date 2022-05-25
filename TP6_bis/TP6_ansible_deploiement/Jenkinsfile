@@ -27,7 +27,7 @@ pipeline {
     }
     stage ('Ansible'){
       steps {
-        sh 'cd TP6_ansible_deploiement && installation:'ansible', inventory: 'ansible.cfg', playbook: 'playbook.yml''
+        sh 'cd TP6_bis/TP6_ansible_deploiement && installation:'ansible', inventory: 'ansible.cfg', playbook: 'playbook.yml''
       }
     }
   }      
