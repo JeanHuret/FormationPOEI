@@ -27,7 +27,7 @@ pipeline {
     }
     stage ('Ansible'){
       tools {
-        Ansible 'ansible'
+        ansible 'ansible'
       }
       steps {
         sh 'cd TP6_ansible_deploiement && docker-compose up -d'
