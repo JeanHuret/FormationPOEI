@@ -45,6 +45,26 @@ Création du job :
 - Cliquez sur 'save'
 - Lancez le build en cliquant sur 'Build Now'
 
+ansible playbook :
+- se connecter à master01 avec la commande  docker exec -i -t master01 'sh'
+- faire un eval "$(ssh-agent -s)" puis ssh-add /root/.ssh/id_rsa 
+- copier la clef public sur les hôtes distants avec la commande ssh-copy-id root@<IPmachinehost> avec les ip récupérées précédemment.
+- se connecter à chaque hôte avec la commande ssh root@<IPmachinehost> afin d'activer la clef. Une fois la clef activée vous pouvez vous connecter directement.
+- créer un dossier ansible dans /etc et un fichier host dans ce dossier ansible il devrait être comme le hosts du dépôt avec des ip différentes auparavant récupérées.
+- lancer le playbook avec la commande ansible-playbook le nomdufichier.yaml
+En cas d' échec, une erreur apparaîtra.
 
+docker-compose :
+- pour lancer les conteneur utilisé le docker-compose avec la commande suivante docker-compose up -d.
+- pour vérifier docker-compose ps qui permet de voir si le containers sont up et les lien créer "port"
+- en cas d'échec faire un docker-compose log pour plus de détail sur erreur.
+- pour relancer un compose proprement faire docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker system prune -a --volumes qui videra le cache afin de repartir sur une installation vierge.
+- enfin faire un docker inspect --format='{{.Name}} ansible_host={{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq) qui nous permet avoir les ip qui nous servirons par la suite.
+
+main.yaml
+nous permet d'avoir les variables environnement des bases de données
+
+Le bilan du Tp6 est mitigé car nous n'avons pas réussi à le terminer et des points automatisations ne sont pas réglés. le playbook centos n'a pas été fait, le problème du local host pour le playbook génère des erreurs sur les parties commentées.
+Il nous a permis quand même de mieux comprendre les conceptions et la manière d'automatiser les différentes étapes
 
 
