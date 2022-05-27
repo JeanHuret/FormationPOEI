@@ -1,0 +1,11 @@
+sql_user: "admin"
+
+mysql_password: "secret"
+
+mysql_dbname: "dbappubuntu"
+
+db_host: "172.20.0.5"
+
+app_host: "172.20.0.6"
+
+root_password: "rootpassword"

@@ -1,9 +1,7 @@
-[servers]
-
 [app]
-appubuntu
-appcentos
+host01 ansible_host=
+host02 ansible_host=
 
 [db]
-dbubuntu
-dbcentos
+host03 ansible_host=
+host04 ansible_host=
