@@ -1,65 +1,24 @@
 class Utilisateur:
-    # Propriétés de l'utilisateur
+
+    _id = 0
+    _prenom = ""
     _nom = ""
-    _prenom = ''
-    _age = int()
-    _mail = ""
-
-    # Propriétés et méthodes 
-    # Public : accessible en dehors
-    # Privé : accessible que dans la classe
-    __motdepasse = ''
-    # Protégé : pas accessible en dehors de la classe mais accessible dans une classe enfant
-    _pseudo = ''
-
-    # Constructeur
-    def __init__(self, dictionnaire_de_donnees):
-        for cle,valeur in dictionnaire_de_donnees:
-            self._cle = valeur
-        
-
-    def get_nom(self):
-        return self._nom
-    
-    def set_nom(self, nom):
-        self._nom = nom
-
-    # Méthodes la classe utilisateur
-  
-class Membre(Utilisateur):
-    is_membre = True
-
-    def jeMappelle(self):
-        self._pseudo
-        return 'Je suis un membre'
-
-class Admin( Membre, Utilisateur):
-    is_admin = True
-
-    def jeMappelle(self):
-        return 'Je suis un administrateur !'
-class Utilisateur:
-
-    id = 0
-    prenom = ""
-    nom = ""
-    role = "" 
-    presentation = ""
-    email = ""
-    mot_de_passe = "" 
-    connecte = False        
+    _role = "" 
+    _email = ""
+    __mot_de_passe = "" 
+    _connecte = False        
 
     def ListeUtilisateur(self) : 
         #affiche la liste des utilisateurs depuis un fichier utilisateurs.txt
-        fichier = open('./corrige/exercise9/utilisateurs.txt','r')
+        fichier = open('./utilisateurs.txt','r')
         liste_utilisateurs = fichier.readlines()
         fichier.close()
         return liste_utilisateurs
 
-    def AjoutUtilisateur(self, nom, prenom, role, presentation, email, mot_de_passe) : 
+    def AjoutUtilisateur(self, nom, prenom, role, email, mot_de_passe) : 
         #permet l'ajout d'un utilisateur depuis une saisie de l'utilisateur et enregistre l'utilisateur dans le fichier utilisateurs.txt (à la suite des autres)
-        user = '\n' + nom + ',' + prenom + ',' + role + ',' + presentation + ',' + email + ',' + mot_de_passe 
-        fichier = open('./corrige/exercise9/utilisateurs.txt','a')
+        user = '\n' + nom + ',' + prenom + ',' + role + ',' + email + ',' + mot_de_passe 
+        fichier = open('./utilisateurs.txt','a')
         fichier.write(user)
         fichier.close()
         return user + 'L\'utilisateur a bien été ajouté'
