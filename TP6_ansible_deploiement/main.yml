@@ -1,4 +1,4 @@
-sql_user: "admin"
+sql_user: "user"
 
 mysql_password: "secret"
 
