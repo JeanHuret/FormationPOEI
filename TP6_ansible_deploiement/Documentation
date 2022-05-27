@@ -1,0 +1,50 @@
+TP 6 : Documentation
+
+Description de l’application :
+
+L’application s’utilise dans un terminal et permet de garder une liste des machines existantes dans
+l’entreprise et des applications présentes sur ces machines. Celle-ci propose des choix pour effectuer
+différentes actions autours des machines et des applications. Les données sont enregistrées dans une
+base SQL contenant deux tableaux : Machines et Disques. De plus l’application permet de sauvegarder
+vos données et vos bases de données. 
+
+Utilisation du build.gradle :
+
+Pour utiliser l'application il vous suffit de faire un git clone du Git HUB dans le dossier voulu et aller dans le TP6_ansible_deploiement :
+git clone https://github.com/JeanHuret/FormationPOEI.git
+
+- Placez-vous dans le dossier TP6_ansible_deploiement : cd TP6_ansible_deploiement
+- Lancez le build de l'image de jenkins : docker build -t my_jenkins .
+- Lancez les container jenkins et ansible : docker-compose up -d 
+                                                   
+Utilisation de Jenkins :
+
+- Sur une page web allez à l'adresse  http://localhost:8098
+- Lancez le container jenkins : docker container ls
+                                docker exec -it <id du containeur> bash
+                                cat /var/jenkins_home/secrets/initialAdminPassword
+- Copiez le code affiché dans Jenkins 
+- Configurez les plugins (vous pouvez laisser les plugins recommandés)
+- Configurez votre compte admin
+
+- Allez dans 'Manage Jenkins' 
+- Allez dans 'Manage plugins' puis cliquez sur 'Available', tapez 'plot', cochez la case puis cliquez sur 'install without restart'
+- Allez dans 'Manage plugins' puis cliquez sur 'Available', tapez 'Ansible', cochez la case puis cliquez sur 'install without restart'
+- Allez dans 'Global Tool Configuration' puis cliquez sur 'add gradle', ajoutez le nom 'gradle' ensuite cliquez sur 'save'
+- Allez dans 'Global Tool Configuration' puis cliquez sur 'add ansible', ajoutez le nom 'ansible' ensuite cliquez sur 'save'
+
+Création du job : 
+
+- Retournez dans le dashboard
+- Cliquez sur New item 
+- Choisissez le nom du job et cliquez sur 'pipeline' puis 'Ok'
+- Cliquez sur 'Definition' dans la session pipeline et choisissez 'Pipeline script from SCM'
+- Choisissez 'GIT' dans le menu déroulant 'SCM'
+- Entrez 'https://github.com/JeanHuret/FormationPOEI.git' dans le 'repository URL' 
+- Entrez 'TP6_ansible_deploiement/Jenkinsfile' dans le 'Script Path'
+- Cliquez sur 'save'
+- Lancez le build en cliquant sur 'Build Now'
+
+
+
+
