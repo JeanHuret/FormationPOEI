@@ -11,9 +11,9 @@ user = utilisateur.Utilisateur(dico)
 if choix == '1':
     id = input('Identifiant : ')
     password = input('Mot de passe : ')
-    user.connexion(id, password)
-    # print('Utilisateur connecté')   
+    user.connexion(id, password)   
     if user.connecte:
+        print('Utilisateur connecté')
         if user.role == 'membre':
                 choix_membre = input('1-Modification de votre fiche, 2-Liste QCM, 3-Choisir QCM')
                 if choix_membre == '1':

@@ -78,12 +78,15 @@ class Utilisateur:
         file = open('utilisateurs.txt')
         lines = file.readlines()
         for line in lines:
-            line_split = line.split(',')
-            if id == line_split[0] and password == line_split[5]:
-                print('id OK + password ok')
-                self.connecte = True
-            else:
-                continue 
+            print (line)
+            line_split = line.split(',')           
+            if id == line_split[0]:
+                 print(id, line_split[0])   
+                if password == line_split[5]:
+                    print('yeaaaah')
+                    print('id OK + password ok')
+                    self.connecte = True
+            
                
     nom = property(fget = get_nom, fset = set_nom)
     mot_de_passe = property (fget =  get_mot_de_passe, fset=set_mot_de_passe)
