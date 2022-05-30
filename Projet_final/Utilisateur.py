@@ -1,12 +1,60 @@
 class Utilisateur:
-
-    _id = 0
+    id = 0
     _prenom = ""
-    _nom = ""
-    _role = "" 
-    _email = ""
-    __mot_de_passe = "" 
-    _connecte = False        
+    _nom = "" # protégé
+    role = "" # public
+    email = ""
+    __mot_de_passe = "" # private mot_de_passe
+    connecte = False
+    _keys = ['_nom', '_prenom' ]
+
+    def __init__(self, dictionnaire) :
+        for cle, valeur in dictionnaire.items():
+            setattr(self, cle, valeur)
+        
+    def get_nom(self):
+        return self._nom.upper()
+
+    def set_nom(self, valeur):
+        self._nom = " ma regle a moi " + valeur
+
+    def get_mot_de_passe(self):
+        mot_de_passe = ''
+        for caractere in self.__mot_de_passe:
+            mot_de_passe += '*'
+        return mot_de_passe
+
+    def set_mot_de_passe(self,valeur):
+        if(str(valeur) and '?' in valeur ):
+            self.__mot_de_passe = valeur
+            return 'ok'
+        else:
+            return 'Erreur'
+
+    def connexion(self, identifiant, password):
+        file = open('utilisateurs.txt')
+        lines = file.readlines()
+        for line in lines:
+            line_split = line.split(',')
+            if identifiant == line_split[0] and password == line_split[5]:
+                print('id ok + password ok')
+                self.connecte = True
+            else:
+                continue
+    
+    nom = property(fget = get_nom, fset = set_nom)
+    mot_de_passe = property (fget =  get_mot_de_passe, fset=set_mot_de_passe)
+
+class Membre(Utilisateur):
+    is_membre = True
+    def isMembre(self):
+        return True
+
+class Admin(Membre, Utilisateur):
+    is_admin = True
+
+    def jeMappelle(self):
+        return 'Je suis un administrateur !'
 
     def ListeUtilisateur(self) : 
         #affiche la liste des utilisateurs depuis un fichier utilisateurs.txt
@@ -36,21 +84,9 @@ class Utilisateur:
         for user in liste_users:
             if user_a_supprimer ==  user:
                 liste_users.remove(user_a_supprimer)
-        fichier = open('./corrige/exercise9/utilisateurs.txt','w')
+        fichier = open('./utilisateurs.txt','w')
         fichier.writelines(liste_users)
         fichier.close()
-
-    def SeConnecter(self, identifiant, motdepasse) : 
-        # vérifier si les informations saisies par l'utilisateur correspondent à celle de l'utilisateur puis lui donné le statut connecté
-        file = open('./corrige/exercise9/utilisateurs.txt')
-        lines = file.readlines()
-        for line in lines:
-            line_split = line.split(',')
-            if identifiant == line_split[0] and motdepasse == line_split[6]:
-                print('id ok + password ok')
-                self.connecte = True
-            else:
-                continue
 
     def __trouverunuser(self,id):
         liste_user = self.ListeUtilisateur()
