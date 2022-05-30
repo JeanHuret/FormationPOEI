@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS cathegorie (
 
 `cathegorie` VARCHAR(256) NOT NULL,
 
-
+);
 
 
 CREATE TABLE IF NOT EXISTS QCM (
