@@ -27,7 +27,7 @@ pipeline {
     }
     stage ('Ansible'){
       steps {
-        ansiblePlaybook installation: 'ansible', inventory: 'TP6_bis/TP6_ansible_deploiement/hosts', playbook: 'TP6_bis/TP6_ansible_deploiement/playbook.yml'
+        ansiblePlaybook installation: 'ansible', inventory: 'TP6_ansible_deploiement/hosts', playbook: 'TP6_ansible_deploiement/playbook.yml'
       }
     }
   }      
