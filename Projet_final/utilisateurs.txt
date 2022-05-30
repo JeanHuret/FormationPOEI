@@ -1,2 +1,2 @@
-jeannot, jean, Huret, admin, jean.huret@gmail.com, shuuuut4
-paupau, Pauline, Fadda, membre, pauline.fadda@live.fr, secretstory4
+paupau,Pauline,Fadda,membre,pauline.fadda@live.fr,secretstory4
+nicolas,jean,Huret,admin,jean.huret@gmail.com,nicolasnicolas56

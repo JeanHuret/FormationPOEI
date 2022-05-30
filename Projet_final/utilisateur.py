@@ -80,12 +80,10 @@ class Utilisateur:
         for line in lines:
             print (line)
             line_split = line.split(',')           
-            if id == line_split[0]:
-                 print(id, line_split[0])   
-                if password == line_split[5]:
-                    print('yeaaaah')
+            if id == line_split[0] and password == line_split[5]:
                     print('id OK + password ok')
                     self.connecte = True
+                    self.role = line_split[3]
             
                
     nom = property(fget = get_nom, fset = set_nom)
