@@ -1,12 +1,18 @@
 CREATE DATABASE if not exists questionnaire;
   
+USE questionnaire
 
 
-USE questionnaire;
+CREATE TABLE IF NOT EXISTS cathegorie (
+
+`cathegorieid` INT(10) AUTO_INCREMENT PRIMARY KEY,
+
+`cathegorie` VARCHAR(256) NOT NULL,
 
 
 
-CREATE TABLE IF NOT EXISTS questionnaire (
+
+CREATE TABLE IF NOT EXISTS QCM (
 
     `QCMid` INT(10) AUTO_INCREMENT PRIMARY KEY,
     
