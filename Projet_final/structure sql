@@ -10,8 +10,6 @@ CREATE TABLE IF NOT EXISTS questionnaire (
 
     `id` INT(10) AUTO_INCREMENT PRIMARY KEY,
 
-    `cathegorie` VARCHAR(64) NOT NULL,
-
     `Question1` VARCHAR(256),
 
     `Réponse1` VARCHAR(256),
