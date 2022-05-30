@@ -8,7 +8,11 @@ USE questionnaire;
 
 CREATE TABLE IF NOT EXISTS questionnaire (
 
-    `id` INT(10) AUTO_INCREMENT PRIMARY KEY,
+    `QCMid` INT(10) AUTO_INCREMENT PRIMARY KEY,
+    
+    `cathegorieID` INT(10),
+    
+    FOREIGN KEY (cathegorieID) REFERENCES cathegorie (cathegorieID)
 
     `Question1` VARCHAR(256),
 
