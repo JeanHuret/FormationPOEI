@@ -7,7 +7,7 @@ user_or_qcm = input('1 - User, 2 - QCM : ')
 
 if user_or_qcm == "1":
     choix = input('1- liste, 2- Se connecter : ')
-    dico = {'id':'1','_nom':'Huret','_prenom':'Jean','role':'membre','email':'jean.huret@gmail.com', '__mot_de_passe':'shuuuut4'}
+    dico = {'id':'jeannot','_nom':'Huret','_prenom':'Jean','role':'membre','email':'jean.huret@gmail.com', '__mot_de_passe':'shuuuut4'}
     user = utilisateur.Utilisateur(dico)
     if choix == '1':
         liste_utilisateurs = user.ListeUtilisateur()
