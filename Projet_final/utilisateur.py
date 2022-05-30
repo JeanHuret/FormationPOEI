@@ -83,7 +83,7 @@ class Utilisateur:
                 print('id OK + password ok')
                 self.connecte = True
             else:
-                continue
+                continue 
                
     nom = property(fget = get_nom, fset = set_nom)
     mot_de_passe = property (fget =  get_mot_de_passe, fset=set_mot_de_passe)
