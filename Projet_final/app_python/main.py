@@ -1,7 +1,7 @@
 import configdb
 import modules.connexiondb as db
 import modules.qcm as qcm
-import modules.utilisateur as utilisateur
+import modules.utilisateurs as utilisateurs
 import modules.membre as membre
 import modules.admin as admin
 
@@ -10,11 +10,11 @@ connexion = bdd.connect()
 
 choix = input('1- Se connecter, 2- S\'inscrire : ')
 dico = {'id':'jeannot','_nom':'Huret','_prenom':'Jean','role':'membre','email':'jean.huret@gmail.com', '__mot_de_passe':'shuuuut4'}
-user = utilisateur.Utilisateur(dico)
+user = utilisateurs.Utilisateurs(dico)
 if choix == '1':
-    id = input('Identifiant : ')
+    pseudo = input('Identifiant : ')
     password = input('Mot de passe : ')
-    user.connexion(id, password)   
+    user.connexionUtilisateur(pseudo, password)   
     if user.connecte:
         print('Utilisateur connecté')
         if user.role == 'membre':

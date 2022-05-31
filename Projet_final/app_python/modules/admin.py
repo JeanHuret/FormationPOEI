@@ -1,6 +1,7 @@
-from utilisateur import Utilisateur
+import mariadb
+from utilisateurs import Utilisateurs
 
-class Admin(Utilisateur):
+class Admin(Utilisateurs):
     is_admin = True
     def isAdmin(self):
         return True

@@ -1,6 +1,7 @@
-from utilisateur import Utilisateur
+import mariadb
+from utilisateurs import Utilisateurs
 
-class Membre(Utilisateur):
+class Membre(Utilisateurs):
     is_membre = True
     def isMembre(self):
         return True

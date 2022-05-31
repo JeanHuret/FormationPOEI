@@ -1,5 +1,5 @@
 import mariadb
-class Utilisateur:
+class Utilisateurs:
     
     def __init__(self, qcm, liste_categorie, connexion) -> None:
         # Propriété de l'objet utilisateur
@@ -102,7 +102,7 @@ class Utilisateur:
             self.__connexion.commit()
             return 'L\'utilisateur  a bien été ajouté'
         except mariadb.Error as e:     
-            return f'Erreur lors de la suppression {e} '
+            return f'Erreur lors de l\'ajout {e} '
 
 
     def __TrouverUtilisateur(self,pseudo):
@@ -130,7 +130,16 @@ class Utilisateur:
             id_utilisateur = cursor.fetchone()
             cursor.execute('DELETE FROM utilisateurs WHERE pseudo = ?;',(pseudo,))
             self.__connexion.commit()
-            return 'L\'utilisateur  a bien été supprimé'
+            return 'L\'utilisateur a bien été supprimé'
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '
     
+    def connexionUtilisateur(self, pseudo, password):
+        try:
+            cursor=self.__connexion.cursor()
+            cursor.execute('SELECT * FROM utilisateurs WHERE pseudo = ? AND password = ?',(pseudo, password,))
+            utilisateur_a_afficher = cursor.fetchone()
+            return utilisateur_a_afficher + 'Connexion établie'
+        except mariadb.Error as e:     
+            return f'Erreur lors de la suppression {e} '
+        
