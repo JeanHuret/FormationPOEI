@@ -1,22 +1,58 @@
+import mariadb
 class Utilisateur:
-    id = 0
-    _prenom = ""
-    _nom = "" # protégé
-    role = "" # public
-    email = ""
-    __mot_de_passe = "" # private mot_de_passe
-    connecte = False
-    _keys = ['_nom', '_prenom' ]
-
-    def __init__(self, dictionnaire) :
-        for cle, valeur in dictionnaire.items():
-            setattr(self, cle, valeur)
+    
+    def __init__(self, qcm, liste_categorie, connexion) -> None:
+        # Propriété de l'objet utilisateur
+        self.__id = ''
+        self.__pseudo = ''
+        self.__prenom = ''
+        self.__nom = ''
+        self.__role = ''
+        self.__email = 'dubois.thomas@gmail.com'
+        self.__password = ''
+        self.__qcm = qcm
+        self.__connexion = connexion
         
-    def get_nom(self):
-        return self._nom.upper()
+    def get_id(self):
+        return self.__id
+
+    def set_id(self, id):
+        if isinstance(id, int):
+            self.__id = id
+
+    def get_pseudo(self):
+        return self.__pseudo
+
+    def set_pseudo(self, pseudo):
+        if isinstance(pseudo, str): 
+            self.__pseudo = pseudo
+
+    def get_prenom(self):
+        return self.__prenom
+
+    def set_prenom(self, prenom):
+        if isinstance(prenom, str): 
+            self.__prenom = prenom       
 
     def set_nom(self, nom):
         self._nom = nom
+
+    def get_nom(self):
+        return self._nom.upper()
+
+    def get_role(self):
+        return self.__role
+
+    def set_role(self, role):
+        if isinstance(role, str): 
+            self.__role = role
+
+    def get_email(self):
+        return self.__email
+
+    def set_email(self, email):
+        if isinstance(email, str): 
+            self.__email = email
 
     def get_mot_de_passe(self):
         mot_de_passe = ''
@@ -33,59 +69,68 @@ class Utilisateur:
             print('Merci de respecter les conditions')
             return 'Merci de respecter les conditions'
 
-    def ListeUtilisateur(self) : 
-        #affiche la liste des utilisateurs depuis un fichier utilisateurs.txt
-        fichier = open('utilisateurs.txt','r')
-        liste_utilisateurs = fichier.readlines()
-        fichier.close()
-        return liste_utilisateurs
+     # Lister les utilisateurs avec les caractéristiques suivantes : 
+    def listeUtilisateurs(self):
+        cursor = self.__connexion.cursor()
+        cursor.execute('SELECT * FROM utilisateurs')
+        liste_utilisateurs =  cursor.fetchall()
+        utilisateurs_liste = []     
+        return utilisateurs_liste
 
-    def AjoutUtilisateur(self, id, prenom, nom, role, email, mot_de_passe ) : 
-        #permet l'ajout d'un utilisateur depuis une saisie de l'utilisateur et enregistre l'utilisateur dans le fichier utilisateurs.txt (à la suite des autres)
-        user = '\n' + id + ',' + prenom + ',' +  nom + ',' + role + ',' + email + ',' +  mot_de_passe 
-        fichier = open('utilisateurs.txt','a')
-        fichier.write(user)
-        fichier.close()
-        return user + '\nL\'utilisateur a bien été ajouté'
+    def saisie_utilisateur(self):
+        liste_donnees = []
+        pseudo = input('Quel est votre pseudo ?')
+        liste_donnees.append(pseudo)
+        prenom = input('Quel est votre prenom ?')
+        liste_donnees.append(prenom)
+        nom = input('Quel est votre nom ?')
+        liste_donnees.append(nom)
+        role = input('Etes-vous admin ou membre ?')
+        liste_donnees.append(role)
+        email = input('Quel est votre email ?') 
+        liste_donnees.append(email)
+        mot_de_passe = input('Quel est votre mot de passe ?')
+        liste_donnees.append(mot_de_passe)
+        return liste_donnees
 
-    def VoirUtilisateur(self, idutilisateur) :
-        # permet d'afficher les informations d'un utilisateur précis en fonction de son identifiant (paramètre à demander à l'utilisateur)
-        user_a_afficher = self.__trouverunuser(idutilisateur)
-        return user_a_afficher
-
-    def SupprimeUtilisateur(self, idutilisateur) :
-        # supprime un jeu du fichier utilisateurs.txt à partir de son identifiant
-        user_a_supprimer = self.__trouverunuser(idutilisateur)
-        liste_users = self.ListeUtilisateur()
-        for user in liste_users:
-            if user_a_supprimer ==  user:
-                liste_users.remove(user_a_supprimer)
-        fichier = open('utilisateurs.txt','w')
-        fichier.writelines(liste_users)
-        fichier.close()
-
-    def __trouverunuser(self,id):
-        liste_user = self.ListeUtilisateur()
-        user_a_afficher = ''
-        for user in liste_user:
-            user_split = user.split(',')
-            if user_split[0] == id:
-                user_a_afficher = ','.join(user_split)
-        return user_a_afficher
-
-    def connexion(self, id, password):
-# vérifier si les informations saisies par l'utilisateur correspondent à celle de l'utilisateur puis lui donné le statut connecté
-        file = open('utilisateurs.txt')
-        lines = file.readlines()
-        for line in lines:
-            line_split = line.split(',')           
-            if id == line_split[0] and password == line_split[5]:
-                    print('id OK + password ok')
-                    self.connecte = True
-                    self.role = line_split[3]
-            
-               
-    nom = property(fget = get_nom, fset = set_nom)
-    mot_de_passe = property (fget =  get_mot_de_passe, fset=set_mot_de_passe)
+    # • Permettre l’ajout d’un utilisateur
+    def AjouterUtilisateur(self, liste_donnees):
+        try: 
+            cursor = self.__connexion.cursor()
+            cursor.execute('INSERT INTO utilisateurs ( `pseudo`, `prenom`, `nom`, `role`, `email`, `mot_de_passe`)  VALUES (?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5],))
+            id_utilisateur = cursor.lastrowid
+            self.__connexion.commit()
+            return 'L\'utilisateur  a bien été ajouté'
+        except mariadb.Error as e:     
+            return f'Erreur lors de la suppression {e} '
 
 
+    def __TrouverUtilisateur(self,pseudo):
+        cursor = self.__connexion.cursor()
+        cursor.execute('SELECT * FROM utilisateurs WHERE pseudo = ?;',(pseudo,))
+        utilisateur_a_afficher = cursor.fetchone()
+        return utilisateur_a_afficher
+
+    # Permettre de récupérer les informations d’un utilisateur en saisissant son pseudo
+    def voirUtilisateur(self, pseudo) :
+        utilisateur_a_afficher = self.__TrouverUtilisateur(pseudo)
+        return utilisateur_a_afficher
+    
+    # Permettre de modifier un utilisateur à partir de son pseudo
+    def modifierUtilisateur(self, utilisateur, nouvelles_donnees):
+        self.supprimerUtilisateur(utilisateur)
+        self.AjouterUtilisateur(nouvelles_donnees)
+        return self.voirUtilisateur(utilisateur)
+
+    # Permettre de supprimer une utilisateur
+    def supprimerUtilisateur(self, pseudo):
+        try :
+            cursor = self.__connexion.cursor()
+            cursor.execute('SELECT id FROM utilisateurs WHERE pseudo = ? ',(pseudo,))
+            id_utilisateur = cursor.fetchone()
+            cursor.execute('DELETE FROM utilisateurs WHERE pseudo = ?;',(pseudo,))
+            self.__connexion.commit()
+            return 'L\'utilisateur  a bien été supprimé'
+        except mariadb.Error as e:     
+            return f'Erreur lors de la suppression {e} '
+    

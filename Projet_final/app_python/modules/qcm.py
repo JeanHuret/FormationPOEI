@@ -1,8 +1,8 @@
 import mariadb
 
-class questionnaire:
+class Questionnaire:
 
-    def __init__(self, liste_categorie,connexion) -> None:
+    def __init__(self, utilisateur,connexion) -> None:
         # Propriete de l'objet questionnaire
         self.__IDQuestionnaire = ''
         self.__categorie = ''
@@ -19,7 +19,7 @@ class questionnaire:
         self.__Question6 = ''
         self.__Reponse6 = ''
         self.__connexion = connexion
-        self.__liste_categorie = liste_categorie
+        self.__utilisateur = utilisateur
     
     def get_IDQuestionnaire(self):
         return self.__IDQuestionnaire
@@ -54,7 +54,7 @@ class questionnaire:
 
     def set_Question2(self, Question2):
         if isinstance(Question2, str): 
-            self.__nom = Question2
+            self.__Question2 = Question2
 
     def get_Reponse2(self):
         return self.__Reponse2
@@ -82,7 +82,7 @@ class questionnaire:
 
     def set_Question4(self, Question4):
         if isinstance(Question4, str): 
-            self.__nom = Question4
+            self.__Question4 = Question4
 
     def get_Reponse4(self):
         return self.__Reponse4
