@@ -1,9 +1,12 @@
-import qcm
-import utilisateur
-import membre
-import admin
+import configdb
+import modules.connexiondb as db
+import modules.qcm as qcm
+import modules.utilisateur as utilisateur
+import modules.membre as membre
+import modules.admin as admin
 
-
+bdd = db.ConnectDb(configdb.config)
+connexion = bdd.connect()
 
 choix = input('1- Se connecter, 2- S\'inscrire : ')
 dico = {'id':'jeannot','_nom':'Huret','_prenom':'Jean','role':'membre','email':'jean.huret@gmail.com', '__mot_de_passe':'shuuuut4'}

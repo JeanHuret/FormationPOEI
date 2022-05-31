@@ -5,7 +5,7 @@ class questionnaire:
     def __init__(self, liste_categorie,connexion) -> None:
         # Propriete de l'objet questionnaire
         self.__IDQuestionnaire = ''
-        self.__cathegorie = ''
+        self.__categorie = ''
         self.__Question1 = ''
         self.__Reponse1 = ''
         self.__Question2 = ''
@@ -29,11 +29,11 @@ class questionnaire:
             self.__IDQuestionnaire = IDQuestionnaire
 
     def get_categorie(self):
-        return self.__cathegorie
+        return self.__categorie
 
-    def set_categorie(self, cathegorie):
-        if isinstance(cathegorie, str): 
-            self.__cathegorie = cathegorie
+    def set_categorie(self, categorie):
+        if isinstance(categorie, str): 
+            self.__categorie = categorie
     
     def get_Question1(self):
         return self.__Question1
@@ -121,7 +121,7 @@ class questionnaire:
     
     
     
-    # Lister des machines informatiques avec les caracteristiques suivantes : 
+    # Lister les questionnaires avec les caracteristiques suivantes : 
     def liste_categorie(self):
         cursor = self.__connexion.cursor()
         cursor.execute('SELECT * FROM categorie')
@@ -164,7 +164,7 @@ class questionnaire:
     def ajouter_Questionnaire(self, liste_donnees):
         try: 
             cursor = self.__connexion.cursor()
-            cursor.execute('INSERT INTO machines ( `cathegorie`, `Question1`, `Reponse1`, `Question2`, `Reponse2`,`Question3`, `Reponse3`,`Question4`, `Reponse4`,`Question5`, `Reponse5`,`Question6`, `Reponse6`)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6], liste_donnees[7], liste_donnees[8], liste_donnees[9], liste_donnees[10], liste_donnees[11],liste_donnees[12], liste_donnees[13],))
-            return 'Le questionnaire a bien ete ajoutee'
+            cursor.execute('INSERT INTO machines ( `categorie`, `Question1`, `Reponse1`, `Question2`, `Reponse2`,`Question3`, `Reponse3`,`Question4`, `Reponse4`,`Question5`, `Reponse5`,`Question6`, `Reponse6`)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6], liste_donnees[7], liste_donnees[8], liste_donnees[9], liste_donnees[10], liste_donnees[11],liste_donnees[12], liste_donnees[13],))
+            return 'Le questionnaire a bien ete ajoute'
         except mariadb.Error as e:     
             return f'Erreur lors de l\'envoie {e} '

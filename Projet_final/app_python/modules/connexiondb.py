@@ -1,6 +1,6 @@
 import mariadb
 
-class ConnectDb:
+class ConnexionDb:
 
     def __init__(self, config):
         self.__user = config['user']
