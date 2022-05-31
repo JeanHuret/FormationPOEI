@@ -15,7 +15,7 @@ if choix == '1':
     if user.connecte:
         print('Utilisateur connecté')
         if user.role == 'membre':
-                choix_membre = input('1-Modification de votre fiche, 2-Liste QCM, 3-Choisir QCM')
+                choix_membre = input('1-Modification de votre fiche, 2-Liste QCM, 3-Choisir QCM : ')
                 if choix_membre == '1':
                     membre1 = membre.Membre(dico)
                     membre1.connecte = True
@@ -23,16 +23,23 @@ if choix == '1':
                 elif choix_membre == '2':
                     for un_QCM in qcm.listeQCM():
                         print(un_QCM)
+               # elif choix_membre == '3':
         elif user.role == 'admin':
-                choix_admin = input('1-Ajouter un membre, 2-Supprimer un membre, 3-Liste QCM, 4-Ajouter QCM, 5-Modifier QCM, 6-Supprimer un QCM')
+                choix_admin = input('1-Supprimer un membre, 2-Liste Utilisateur, 3-Liste QCM, 4-Ajouter QCM, 5-Modifier QCM, 6-Supprimer un QCM : ')
                 if choix_admin == "1":
-                    dico['_nom'] = input('Nom')
-                    dico['_prenom'] = input('prenom')
-                    nouvelles_donnees = ','.join(dico.values())
-                    user.AjoutUtilisateur(nouvelles_donnees)
+                    id_user_supp = input('Quel est le pseudo de l\'utilisateur que vous voulez supprimer?')
+                    user.SupprimeUtilisateur(id_user_supp)              
                 elif choix_admin == "2":
                     id_user_supp = input('Quel est le pseudo de l\'utilisateur que vous voulez supprimer?')
                     user.SupprimeUtilisateur(id_user_supp)
+elif choix == '2':
+    id = input('Identifiant : ')
+    prenom = input('Prénom : ')
+    nom = input('Nom : ')
+    role = input('role : ')
+    email = input('email : ')
+    mot_de_passe = input('mot de passe : ')
+    print(user.AjoutUtilisateur(id, prenom, nom, role, email, mot_de_passe ))
 else: 
     print('Merci de rentrer un identifiant ou un mot de passe valide')
 

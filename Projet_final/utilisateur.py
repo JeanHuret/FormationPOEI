@@ -40,13 +40,13 @@ class Utilisateur:
         fichier.close()
         return liste_utilisateurs
 
-    def AjoutUtilisateur(self, chaine_caractere_donnees) : 
+    def AjoutUtilisateur(self, id, prenom, nom, role, email, mot_de_passe ) : 
         #permet l'ajout d'un utilisateur depuis une saisie de l'utilisateur et enregistre l'utilisateur dans le fichier utilisateurs.txt (à la suite des autres)
-        user = '\n' + chaine_caractere_donnees
+        user = '\n' + id + ',' + prenom + ',' +  nom + ',' + role + ',' + email + ',' +  mot_de_passe 
         fichier = open('utilisateurs.txt','a')
         fichier.write(user)
         fichier.close()
-        return user + 'L\'utilisateur a bien été ajouté'
+        return user + '\nL\'utilisateur a bien été ajouté'
 
     def VoirUtilisateur(self, idutilisateur) :
         # permet d'afficher les informations d'un utilisateur précis en fonction de son identifiant (paramètre à demander à l'utilisateur)
@@ -78,7 +78,6 @@ class Utilisateur:
         file = open('utilisateurs.txt')
         lines = file.readlines()
         for line in lines:
-            print (line)
             line_split = line.split(',')           
             if id == line_split[0] and password == line_split[5]:
                     print('id OK + password ok')
