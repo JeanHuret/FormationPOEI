@@ -2,8 +2,6 @@ import configdb
 import modules.connexiondb as db
 import modules.qcm as qcm
 import modules.utilisateurs as utilisateurs
-import modules.membre as membre
-import modules.admin as admin
 
 bdd = db.ConnectDb(configdb.config)
 connexion = bdd.connect()

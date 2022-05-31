@@ -143,3 +143,12 @@ class Utilisateurs:
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '
         
+class Admin(Utilisateurs):
+    is_admin = True
+    def isAdmin(self):
+        return True
+
+class Membre(Utilisateurs):
+    is_membre = True
+    def isMembre(self):
+        return True
