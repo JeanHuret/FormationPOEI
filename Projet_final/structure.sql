@@ -71,12 +71,14 @@ CREATE TABLE IF NOT EXISTS QCM (
 );
 
 
-CREATE TABLE IF NOT EXISTS user (
+CREATE TABLE IF NOT EXISTS utilisateur (
 
     `id` INT(10) AUTO_INCREMENT PRIMARY KEY,
-
+    `pseudo` VARCHAR(256) NOT NULL,
+    `prenom` VARCHAR(256) NOT NULL,
     `nom` VARCHAR(256) NOT NULL,
-
+    `role` VARCHAR(256) NOT NULL,
+    `email` VARCHAR(256) NOT NULL,
     `password` VARCHAR(16),
 
 );
