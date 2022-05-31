@@ -22,30 +22,53 @@ CREATE TABLE IF NOT EXISTS QCM (
 
     `Question1` VARCHAR(256),
 
-    `Réponse1` VARCHAR(256),
+    `Reponse1` VARCHAR(256),
+
+    `Reponse1bis` VARCHAR(256),
+
+    `Reponse1ter` VARCHAR(256),
 
     `Question2` VARCHAR(256),
 
-    `Réponse2` VARCHAR(256),
+    `Reponse2` VARCHAR(256),
+
+    `Reponse2bis` VARCHAR(256),
+
+    `Reponse2ter` VARCHAR(256),
 
     `Question3` VARCHAR(256),
 
-    `Réponse3` VARCHAR(256),
+    `Reponse3` VARCHAR(256),
+
+    `Reponse3bis` VARCHAR(256),
+
+    `Reponse3ter` VARCHAR(256),
 
     `Question4` VARCHAR(256),
 
-    `Réponse4` VARCHAR(256),
+    `Reponse4` VARCHAR(256),
+
+    `Reponse4bis` VARCHAR(256),
+
+    `Reponse4ter` VARCHAR(256),
 
     `Question5` VARCHAR(256),
 
-    `Réponse5` VARCHAR(256),
+    `Reponse5` VARCHAR(256),
+
+    `Reponse5bis` VARCHAR(256),
+
+    `Reponse5ter` VARCHAR(256),
 
     `Question6` VARCHAR(256),
 
-    `Réponse6` VARCHAR(256),
+    `Reponse6` VARCHAR(256),
+
+    `Reponse6bis` VARCHAR(256),
+
+    `Reponse6ter` VARCHAR(256),
 
 );
-
 
 
 CREATE TABLE IF NOT EXISTS user (
