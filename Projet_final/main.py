@@ -32,6 +32,7 @@ if choix == '1':
                 elif choix_admin == "2":
                     id_user_supp = input('Quel est le pseudo de l\'utilisateur que vous voulez supprimer?')
                     user.SupprimeUtilisateur(id_user_supp)
+               # elif choix_membre == '4': 
 elif choix == '2':
     id = input('Identifiant : ')
     prenom = input('Prénom : ')
