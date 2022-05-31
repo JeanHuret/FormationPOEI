@@ -1,4 +1,5 @@
 import mariadb
+import configdb
 
 class ConnexionDb:
 
@@ -8,7 +9,7 @@ class ConnexionDb:
         self.__host = config['host']
         self.__port = config['port']
         self.__database = config['database']
-    
+
     def connect(self):
         try:
             conn = mariadb.connect(
@@ -21,3 +22,5 @@ class ConnexionDb:
             return conn
         except mariadb.Error as e:
             return f"Error connecting to MariaDB Platform: {e}"
+        
+

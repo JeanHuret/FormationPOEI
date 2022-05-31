@@ -1,7 +1,8 @@
 import mariadb
+
 class Utilisateurs:
     
-    def __init__(self, qcm, liste_categorie, connexion) -> None:
+    def __init__(self, qcm, connexion) -> None:
         # Propriété de l'objet utilisateur
         self.__id = ''
         self.__pseudo = ''
