@@ -113,14 +113,14 @@ class Questionnaire:
     def ajouterquestionnaire(self, liste_donnees):
         try:
             cursor = self.__connexion.cursor()
-            cursor.execute('INSERT INTO questionnaire ( `qcm_id`, `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3`)  VALUES (?, ?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6]))
+            cursor.execute('INSERT INTO questionnaire ( `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3`)  VALUES (?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6]))
             self.__connexion.commit()
             return 'La question a bien été ajoutée'
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '
 
 
-    def __trouverunquestionnaire(self,questionnaire):
+    def trouverunquestionnaire(self,questionnaire):
         cursor = self.__connexion.cursor()
         cursor.execute('SELECT * FROM questionnaire WHERE qcm_id = ?;',(questionnaire,))
         questionnaire_a_afficher = cursor.fetchone()
