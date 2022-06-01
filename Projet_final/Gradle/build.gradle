@@ -25,7 +25,7 @@ task pycodestyle(type:Exec, dependsOn:lint) {
     ignoreExitValue true
 }
    
-task packageDistribution(type:Zip, dependsOn:lint){
+task packageDistribution(type:Zip, dependsOn:pycodestyle){
     from('/project') into ('.')
     archiveFileName = 'demo-python.zip'
     destinationDirectory = file('build')
