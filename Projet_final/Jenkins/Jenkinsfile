@@ -55,5 +55,6 @@ pipeline {
             junit 'Gradle/test-reports/flake8/*.xml'
           }
       }
+    }
   }
 }
