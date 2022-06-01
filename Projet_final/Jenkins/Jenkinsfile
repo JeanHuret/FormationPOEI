@@ -38,7 +38,12 @@ pipeline {
         sh 'cd Projet_final/Gradle && gradle packageDistribution'
       }
     }
-  }
+    stage ('Ansible'){
+      steps {
+        ansiblePlaybook installation: 'ansible', inventory: 'Projet_final/hosts', playbook: 'Projet_final/playbook.yml'
+      }
+    }
+  }      
   post {
        always{
              post {
