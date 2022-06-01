@@ -13,11 +13,11 @@ if choix_donnees == "1":
     membre = utilisateurs.Membre(qcm, connexion)
     choix = input('Choisir : 1 - Liste des QCM, 2 - Faire un QCM 3 - Modifier ses informations : ')
     if choix == "1":
-        for un_qcm in qcm.listeqcms():
+        for un_qcm in qcm.liste_questionnaire():
             print(un_qcm)
     elif choix == "2":
-        donnees_qcms = qcm.saisie_qcm()
-        print(qcm.ajouterqcm(donnees_qcms))
+        donnees_qcm = qcm.saisie_questionnaire()
+        print(qcm.ajouter_questionnaire(donnees_qcm))
     elif choix == "3":
         identifiant = input('Quel est le pseudo à modifier ? : ')
         donnees_utilisateur = membre.saisie_utilisateur()
@@ -52,21 +52,21 @@ elif choix_donnees == "2":
     elif choix_utilisateur_qcm == "2":
         choix = input('Choisir : 1 - Liste des catégories,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
         if choix == "1":
-            for un_qcm in questionnaire.liste_QCM():
+            for un_qcm in questionnaire.liste_questionnaire():
                 print(un_qcm)
         elif choix == "2":
-            donnees_QCM = questionnaire.saisie_QCM()
-            print(qcm.Ajouter_QCM(donnees_QCM))
+            donnees_QCM = questionnaire.saisie_questionnaire()
+            print(questionnaire.ajouter_questionnaire(donnees_QCM))
         elif choix == "3":
             identifiant = input('Id du QCM : ')
-            print(qcm.voirQCM(identifiant))
+            print(questionnaire.voir_questionnaire(identifiant))
         elif choix == "4":
             identifiant = input('quel est l id du QCM ? ')
             donnees_utilisateur = admin.saisie_utilisateur()
-            print(qcm.modifierQCM(identifiant, donnees_utilisateur))
+            print(questionnaire.modifier_questionnaire(identifiant, donnees_utilisateur))
         elif choix == "5":
             identifiant = input('id du QCM à supprimer : ')
-            print(qcm.supprimerQCM(identifiant))
+            print(questionnaire.supprimer_questionnaire(identifiant))
         else :
             print("Merci de saisir un choix valide")
     else :
