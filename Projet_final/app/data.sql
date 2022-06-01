@@ -2,18 +2,13 @@ CREATE DATABASE if not exists questionnaire;
   
 USE questionnaire;
 
-CREATE TABLE IF NOT EXISTS categorie (
-`categorie_id` INT(10) AUTO_INCREMENT PRIMARY KEY,
-`categorie` VARCHAR(256) NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS QCM (
 
     `qcm_id` INT(10) AUTO_INCREMENT PRIMARY KEY,
-    
-    `categorie_id` INT(10),
-    
-    FOREIGN KEY (categorie_id) REFERENCES categorie (categorie_id),
+
+    `categorie_id` INT(10) AUTO_INCREMENT,
+
+    `categorie` VARCHAR(256),
 
     `Question1` VARCHAR(256),
 
@@ -75,7 +70,7 @@ INSERT INTO QCM(qcm_id,categorie,categorie_id,question,reponse1,reponse2,reponse
 INSERT INTO QCM(qcm_id,categorie,categorie_id,question,reponse1,reponse2,reponse3) VALUES ('4001','nature','003','Combien de couleur y a til dans l arc en ciel','10','7','5');
 INSERT INTO QCM(qcm_id,categorie,categorie_id,question,reponse1,reponse2,reponse3) VALUES ('0002','geographie','001','Dans qulle ville de france se situe la tour effeil','Lyon','Paris','Marseille');
 INSERT INTO QCM(qcm_id,categorie,categorie_id,question,reponse1,reponse2,reponse3) VALUES ('5000','sport','006','En quelle année la france remporte t ell la premiere coupe du monde','2000','1998','1990');
-INSERT INTO QCM(qcm_id,categorie,categorie_id,question,reponse1,reponse2,reponse3) VALUES ('5449','sdsds','054','eded','sdd','ffdffg')
+INSERT INTO QCM(qcm_id,categorie,categorie_id,question,reponse1,reponse2,reponse3) VALUES ('5449','sdsds','054','eded','sdd','ffdffg','fgdfgfd');
 
 CREATE TABLE IF NOT EXISTS utilisateurs (
 
