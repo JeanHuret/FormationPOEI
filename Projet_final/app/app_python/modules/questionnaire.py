@@ -66,7 +66,7 @@ class Questionnaire:
     # Lister les questionnaire avec les caractéristiques suivantes : 
     def liste_questionnaire(self):
         cursor = self.__questionnaire.cursor()
-        cursor.execute('SELECT * FROM questionnaire;')
+        cursor.execute('SELECT * FROM QCM;')
         liste_questionnaire = cursor.fetchall()
         return liste_questionnaire
 
@@ -113,7 +113,7 @@ class Questionnaire:
     def ajouter_questionnaire(self, liste_donnees):
         try:
             cursor = self.__connexion.cursor()
-            cursor.execute('INSERT INTO questionnaire ( `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3`)  VALUES (?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6]))
+            cursor.execute('INSERT INTO QCM ( `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3`)  VALUES (?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6]))
             self.__connexion.commit()
             return 'La question a bien été ajoutée'
         except mariadb.Error as e:     
@@ -135,7 +135,7 @@ class Questionnaire:
     def modifier_questionnaire(self, nouvelle_donnees):
         try: 
             cursor = self.__connexion.cursor()
-            cursor.execute('UPDATE questionnaire SET `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3` = ? WHERE `qcm_id` = ?;',(nouvelle_donnees[0], nouvelle_donnees[1], nouvelle_donnees[2], nouvelle_donnees[3], nouvelle_donnees[4], nouvelle_donnees[5], nouvelle_donnees[6],))
+            cursor.execute('UPDATE QCM SET `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3` = ? WHERE `qcm_id` = ?;',(nouvelle_donnees[0], nouvelle_donnees[1], nouvelle_donnees[2], nouvelle_donnees[3], nouvelle_donnees[4], nouvelle_donnees[5], nouvelle_donnees[6],))
             self.__connexion.commit()
             return self.voir_questionnaire(nouvelle_donnees[0])
         except mariadb.Error as e:     
@@ -145,7 +145,7 @@ class Questionnaire:
     def supprimer_questionnaire(self, questionnaire):
         try :
             cursor = self.__connexion.cursor()
-            cursor.execute('DELETE FROM questionnaire WHERE qcm_id = ?;',(questionnaire,))
+            cursor.execute('DELETE FROM QCM WHERE qcm_id = ?;',(questionnaire,))
             self.__connexion.commit()
             return 'La question a bien été supprimée'
         except mariadb.Error as e:     
