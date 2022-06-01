@@ -27,8 +27,6 @@ services:
     hostname: master01
     depends_on:
       - "pythonubuntu"
-      - "pythoncentos"
-      - "dbcentos"
       - "dbubuntu"
     stdin_open: true
     tty: true
@@ -39,8 +37,6 @@ services:
       && apk add --no-cache sshpass
       && ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa 
       && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@pythonubuntu
-      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@pythoncentos
-      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@dbcentos
       && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@dbubuntu
       && /bin/sh"
     volumes:
@@ -67,24 +63,6 @@ services:
       - 22
     volumes:
      - ansible_vol:/var/ans
-  pythoncentos:
-    build: centos/
-    container_name: pythoncentos
-    hostname: pythoncentos
-    stdin_open: true
-    tty: true
-    command: >
-      /bin/sh -c "yum update -y 
-      &&  yum install -y openssh-server python39 
-      &&  yum clean all 
-      &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
-      &&  echo 'root:toor' | chpasswd 
-      && ssh-keygen -A
-      && /usr/sbin/sshd -D"
-    expose: 
-      - 22
-    volumes:
-     - ansible_vol:/var/ans
   dbubuntu:
     image: ubuntu
     container_name: dbubuntu
@@ -103,33 +81,10 @@ services:
     expose: 
       - 22
     ports:
-      - 3307:3306
+      - 3306:3306
     volumes:
      - ansible_vol:/var/ans
-  dbcentos:
-    image: centos/systemd 
-    container_name: dbcentos
-    hostname: dbcentos
-    stdin_open: true
-    tty: true
-    privileged: true
-    command: >
-      /bin/sh -c "yum update -y 
-      &&  yum install -y openssh-server python39 
-      &&  yum clean all 
-      &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
-      &&  echo 'root:toor' | chpasswd 
-      && ssh-keygen -A
-      && /usr/sbin/sshd -D"
-    expose: 
-      - 22
-    ports:
-      - 3308:3306
-    volumes:
-     - ansible_vol:/var/ans
-     - dbcentos_vol:/sys/fs/cgroup:ro
 volumes:
   gradle: {}
   jenkins_home: {}
   ansible_vol: {}
-  dbcentos_vol:
