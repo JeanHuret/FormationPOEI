@@ -71,11 +71,17 @@ class Utilisateurs:
             return 'Merci de respecter les conditions'
 
      # Lister les utilisateurs avec les caractéristiques suivantes : 
+    
     def listeUtilisateurs(self):
         cursor = self.__connexion.cursor()
         cursor.execute('SELECT * FROM utilisateurs')
         liste_utilisateurs =  cursor.fetchall()
-        utilisateurs_liste = []     
+        utilisateurs_liste = [] 
+        for utilisateur in liste_utilisateurs :
+            cursor.execute('SELECT * FROM utilisateurs WHERE id = ? ;', (utilisateur[0],))
+            nouvel_utilisateur= utilisateur+ tuple(cursor.fetchall())
+            utilisateurs_liste.append(nouvel_utilisateur)
+
         return utilisateurs_liste
 
     def saisie_utilisateur(self):
