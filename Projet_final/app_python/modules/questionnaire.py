@@ -110,7 +110,7 @@ class Questionnaire:
         return liste_donnees
 
     # • Permettre l’ajout d’une application
-    def ajouterquestionnaire(self, liste_donnees):
+    def ajouter_questionnaire(self, liste_donnees):
         try:
             cursor = self.__connexion.cursor()
             cursor.execute('INSERT INTO questionnaire ( `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3`)  VALUES (?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6]))
@@ -120,19 +120,19 @@ class Questionnaire:
             return f'Erreur lors de la suppression {e} '
 
 
-    def trouverunquestionnaire(self,questionnaire):
+    def trouver_unquestionnaire(self,questionnaire):
         cursor = self.__connexion.cursor()
         cursor.execute('SELECT * FROM questionnaire WHERE qcm_id = ?;',(questionnaire,))
         questionnaire_a_afficher = cursor.fetchone()
         return questionnaire_a_afficher
 
     # Permettre de récupérer les informations d’une application en saisissant son hostname
-    def voirapplication(self, questionnaire) :
+    def voir_questionnaire(self, questionnaire) :
         questionnaire_a_afficher = self.__trouverunquestionnaire(questionnaire)
         return questionnaire_a_afficher
     
     # Permettre de modifier une application à partir de son hostname
-    def modifierquestionnaire(self, nouvelle_donnees):
+    def modifier_questionnaire(self, nouvelle_donnees):
         try: 
             cursor = self.__connexion.cursor()
             cursor.execute('UPDATE questionnaire SET `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3` = ? WHERE `qcm_id` = ?;',(nouvelle_donnees[0], nouvelle_donnees[1], nouvelle_donnees[2], nouvelle_donnees[3], nouvelle_donnees[4], nouvelle_donnees[5], nouvelle_donnees[6],))
@@ -142,7 +142,7 @@ class Questionnaire:
             return f'Erreur lors de la suppression {e} '
 
     # Permettre de supprimer une application
-    def supprimerquestionnaire(self, questionnaire):
+    def supprimer_questionnaire(self, questionnaire):
         try :
             cursor = self.__connexion.cursor()
             cursor.execute('DELETE FROM questionnaire WHERE qcm_id = ?;',(questionnaire,))
