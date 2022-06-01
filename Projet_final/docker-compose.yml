@@ -7,7 +7,7 @@ services:
     ports: 
       - "8098:8080"
       - "50000:50000"
-    build: Jenkins/Dockerfile
+    build: Jenkins/
     volumes:
       - jenkins_home:/var/jenkins_home
 
