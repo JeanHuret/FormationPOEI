@@ -1,7 +1,7 @@
 import configdb
 import mariadb
 import modules.connexiondb as db
-import modules.qcm as qcm
+import modules.questionnaire as qcm
 import modules.utilisateurs as utilisateurs
 
 bdd = db.ConnexionDb(configdb.config)
@@ -13,11 +13,11 @@ if choix_donnees == "1":
     membre = utilisateurs.Membre(qcm, connexion)
     choix = input('Choisir : 1 - Liste des QCM, 2 - Faire un QCM 3 - Modifier ses informations : ')
     if choix == "1":
-        for un_machine in machine.listeMachines():
-            print(un_machine)
+        for un_qcm in qcm.listeqcms():
+            print(un_qcm)
     elif choix == "2":
-        donnees_machines = machine.saisie_machine()
-        print(machine.ajouterMachine(donnees_machines))
+        donnees_qcms = qcm.saisie_qcm()
+        print(qcm.ajouterqcm(donnees_qcms))
     elif choix == "3":
         identifiant = input('Quel est le pseudo à modifier ? : ')
         donnees_utilisateur = membre.saisie_utilisateur()
@@ -52,20 +52,20 @@ elif choix_donnees == "2":
     elif choix_utilisateur_qcm == "2":
         choix = input('Choisir : 1 - Liste des catégories,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
         if choix == "1":
-            for un_qcm in admin.liste_QCM():
+            for un_qcm in questionnaire.liste_QCM():
                 print(un_qcm)
         elif choix == "2":
-            donnees_QCM = admin.saisie_QCM()
+            donnees_QCM = questionnaire.saisie_QCM()
             print(admin.Ajouter_QCM(donnees_QCM))
         elif choix == "3":
             identifiant = input('Id du QCM : ')
             print(admin.voirUtilisateur(identifiant))
         elif choix == "4":
-            identifiant = input('Quel est le pseudo à modifier ? ')
+            identifiant = input('quel est l id du QCM ? ')
             donnees_utilisateur = admin.saisie_utilisateur()
             print(admin.modifierUtilisateur(identifiant, donnees_utilisateur))
         elif choix == "5":
-            identifiant = input('Pseudo de l\'utilsateur à supprimer : ')
+            identifiant = input('id du QCM à supprimer : ')
             print(admin.supprimerUtilisateur(identifiant))
         else :
             print("Merci de saisir un choix valide")
