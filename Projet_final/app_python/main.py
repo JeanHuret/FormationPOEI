@@ -1,4 +1,3 @@
-from re import A
 import configdb
 import mariadb
 import modules.connexiondb as db
