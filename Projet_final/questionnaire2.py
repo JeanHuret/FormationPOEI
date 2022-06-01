@@ -136,7 +136,7 @@ class questionnaire_qcm:
 
 
 # Permettre l’ajout d’un questionnaire
-    def ajoutercategorie(self, liste_Questions):
+    def ajouterQuestion(self, liste_Questions):
         try:
             cursor = self.__connexion.cursor()
             cursor = self.__connexion.cursor()
@@ -147,7 +147,7 @@ class questionnaire_qcm:
             return f'Erreur lors de ajoue {e} '
 
 # Permettre de modifier question à partir de son nom
-    def modifiercategorie(self, nouvelle_donnees, liste_Questions):
+    def modifierQuestion(self, nouvelle_donnees, liste_Questions):
         try: 
             cursor = self.__connexion.cursor()
             cursor.execute('INSERT INTO (`cathegorie`, `Question1`, `Question2`,`Question3`,`Question4`,`Question5`,`Question6`) VALUES (?, ?, ?, ?, ?, ?, ?);',(liste_Questions[0], liste_Questions[1], liste_Questions[2], liste_Questions[3], liste_Questions[4], liste_Questions[5], liste_Questions[6],))
@@ -157,7 +157,7 @@ class questionnaire_qcm:
             return f'Erreur lors de la suppression {e} '
 
 # Permettre de supprimer une categorie
-    def supprimecategorie(self,Questionsid):
+    def supprimeQuestion(self,Questionsid):
         try :
             ID_Question_supprimer = input('Quel est ID de la question a supprimer')
             cursor = self.__connexion.cursor()
