@@ -122,7 +122,7 @@ class Questionnaire:
 
     def trouver_unquestionnaire(self,questionnaire):
         cursor = self.__connexion.cursor()
-        cursor.execute('SELECT * FROM questionnaire WHERE qcm_id = ?;',(questionnaire,))
+        cursor.execute('SELECT * FROM QCM WHERE qcm_id = ?;',(questionnaire,))
         questionnaire_a_afficher = cursor.fetchone()
         return questionnaire_a_afficher
 
