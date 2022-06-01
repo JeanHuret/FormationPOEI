@@ -1,126 +1,135 @@
-version: "3.7"
-
+version: '3'
 services:
+  
   jenkins:
+    depends_on:
+      - master
     ports: 
       - "8098:8080"
       - "50000:50000"
-    image: my_jenkins
+    build: Jenkins/
     volumes:
       - jenkins_home:/var/jenkins_home
-  
-  master:
-    links: 
+
+  gradle:
+    depends_on:
       - jenkins
+    volumes:
+      - gradle:/gradle
+    ports:
+      - "8099:8081"
+    image: my_gradle
+    container_name: gradle
+
+  master:
     image: alpine:latest
     container_name: master01
     hostname: master01
+    depends_on:
+      - "pythonubuntu"
+      - "pythoncentos"
+      - "dbcentos"
+      - "dbubuntu"
     stdin_open: true
     tty: true
     command : >
-      /bin/sh -c "apk update
-      && apk add ansible openssh-server openssh 
-      && ssh-keygen
+      /bin/sh -c "apk update 
+      && apk add ansible 
+      && apk add --no-cache openssh
+      && apk add --no-cache sshpass
+      && ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa 
+      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@pythonubuntu
+      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@pythoncentos
+      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@dbcentos
+      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@dbubuntu
       && /bin/sh"
     volumes:
       - ansible_vol:/var/ans
       - ./files/:/files/
-      - ~/.ssh:/root/.ssh
-  
-  host1:
-    links:
-      - master
+      - ./hosts:/etc/ansible/hosts
+      - ./sshpassword.txt:/root/sshpassword.txt
+  pythonubuntu:
     image: ubuntu
-    container_name: host01
-    hostname: appubuntu
+    container_name: pythonubuntu
+    hostname: pythonubuntu
     stdin_open: true
     tty: true
     command : >
-      /bin/sh -c "apt update 
-      && apt upgrade -y 
-      && DEBIAN_FRONTEND=noninteractive 
-      && mkdir -p /run/sshd
-      && apt install -y apt --no-install-recommends openssh-server python3-pip 
-      && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-      && sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config      
-      && echo 'root:toor' | chpasswd 
-      /usr/sbin/sshd -D"
+      bash -c "apt update && apt upgrade -y 
+      &&  DEBIAN_FRONTEND=noninteractive 
+      &&  mkdir /run/sshd 
+      &&  apt install -y apt --no-install-recommends python3 openssh-server sudo
+      &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+      &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+      &&  echo 'root:toor' | chpasswd 
+      && /usr/sbin/sshd -D"
     expose: 
       - 22
     volumes:
      - ansible_vol:/var/ans
-
-  host02:
-    links:
-      - master
-    image: centos:7
-    container_name: host02
-    hostname: appcentos
+  pythoncentos:
+    build: centos/
+    container_name: pythoncentos
+    hostname: pythoncentos
     stdin_open: true
     tty: true
     command: >
       /bin/sh -c "yum update -y 
-      && yum install -y openssh-server python 
-      && yum clean all 
-      && sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
-      && sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config 
-      && echo 'root:toor' | chpasswd 
+      &&  yum install -y openssh-server python39 
+      &&  yum clean all 
+      &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
+      &&  echo 'root:toor' | chpasswd 
       && ssh-keygen -A
-      /usr/sbin/sshd -D"
+      && /usr/sbin/sshd -D"
     expose: 
       - 22
     volumes:
      - ansible_vol:/var/ans
-  
-  host3:
-    links:
-      - master
+  dbubuntu:
     image: ubuntu
-    container_name: host3
+    container_name: dbubuntu
     hostname: dbubuntu
     stdin_open: true
     tty: true
     command : >
-      /bin/sh -c "apt update 
-      && apt upgrade -y 
-      && DEBIAN_FRONTEND=noninteractive 
-      && mkdir -p /run/sshd
-      && apt install -y apt --no-install-recommends openssh-server python3-pip 
-      && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-      && sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config      
-      && echo 'root:toor' | chpasswd 
+      bash -c "apt update && apt upgrade -y 
+      &&  DEBIAN_FRONTEND=noninteractive 
+      &&  mkdir /run/sshd 
+      &&  apt install -y apt --no-install-recommends python3 openssh-server sudo 
+      &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+      &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+      &&  echo 'root:toor' | chpasswd 
       && /usr/sbin/sshd -D"
     expose: 
       - 22
-    ports: 
-      - 3306:3306
+    ports:
+      - 3307:3306
     volumes:
      - ansible_vol:/var/ans
-
-  host04:
-    links:
-      - master
-    image: centos:7
-    container_name: host04
+  dbcentos:
+    image: centos/systemd 
+    container_name: dbcentos
     hostname: dbcentos
     stdin_open: true
     tty: true
+    privileged: true
     command: >
       /bin/sh -c "yum update -y 
-      && yum install -y openssh-server python 
-      && yum clean all 
-      && sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
-      && sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config 
-      && echo 'root:toor' | chpasswd 
+      &&  yum install -y openssh-server python39 
+      &&  yum clean all 
+      &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
+      &&  echo 'root:toor' | chpasswd 
       && ssh-keygen -A
       && /usr/sbin/sshd -D"
     expose: 
       - 22
     ports:
-      - 3307:3307  
+      - 3308:3306
     volumes:
      - ansible_vol:/var/ans
-
+     - dbcentos_vol:/sys/fs/cgroup:ro
 volumes:
-  ansible_vol:
+  gradle: {}
   jenkins_home: {}
+  ansible_vol: {}
+  dbcentos_vol:
