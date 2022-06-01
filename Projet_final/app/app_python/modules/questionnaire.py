@@ -128,7 +128,7 @@ class Questionnaire:
 
     # Permettre de récupérer les informations d’une application en saisissant son hostname
     def voir_questionnaire(self, questionnaire) :
-        questionnaire_a_afficher = self.__trouverunquestionnaire(questionnaire)
+        questionnaire_a_afficher = self.trouver_unquestionnaire(questionnaire)
         return questionnaire_a_afficher
     
     # Permettre de modifier une application à partir de son hostname
@@ -137,7 +137,7 @@ class Questionnaire:
             cursor = self.__connexion.cursor()
             cursor.execute('UPDATE questionnaire SET `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3` = ? WHERE `qcm_id` = ?;',(nouvelle_donnees[0], nouvelle_donnees[1], nouvelle_donnees[2], nouvelle_donnees[3], nouvelle_donnees[4], nouvelle_donnees[5], nouvelle_donnees[6],))
             self.__connexion.commit()
-            return self.voirquestionnaire(nouvelle_donnees[0])
+            return self.voir_questionnaire(nouvelle_donnees[0])
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '
 
