@@ -1,6 +1,6 @@
 config = {
-    'user' : 'admin',
-    'password' : 'password',
+    'user' : 'formation',
+    'password' : 'formation',
     'host': 'localhost',
     'port': 3306,
     'database': 'questionnaire'

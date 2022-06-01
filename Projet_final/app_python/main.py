@@ -19,8 +19,9 @@ if choix_donnees == "1":
         donnees_machines = machine.saisie_machine()
         print(machine.ajouterMachine(donnees_machines))
     elif choix == "3":
-        donnees_utilisateurs = membre.saisie_utilisateur()
-        print(membre.AjouterUtilisateur(donnees_utilisateurs))
+        identifiant = input('Quel est le pseudo à modifier ? : ')
+        donnees_utilisateur = membre.saisie_utilisateur()
+        print(membre.modifierUtilisateur(identifiant, donnees_utilisateur))
     
     else :
         print("Merci de saisir un choix valide")
@@ -31,49 +32,41 @@ elif choix_donnees == "2":
     if choix_utilisateur_qcm == "1":
         choix = input('Choisir : 1 - Liste des utilisateurs,  2 - Ajouter un utilisateur, 3 - Voir un utilisateur, 4 - Modifier un utilisateur, 5 - Supprimer un utilisateur : ')
         if choix == "1":
-            for un_application in application.listeapplications():
-                print(un_application)
+            for un_utilisateur in admin.listeUtilisateurs():
+                print(un_utilisateur)
         elif choix == "2":
-            donnees_application = application.saisie_application()
-            print(application.ajouterapplication(donnees_application))
+            donnees_utilisateur = admin.saisie_utilisateur()
+            print(admin.AjouterUtilisateur(donnees_utilisateur))
         elif choix == "3":
-            identifiant = input('Nom de l\'application')
-            print(application.voirapplication(identifiant))
+            identifiant = input('Pseudo de l\'utilisateur : ')
+            print(admin.voirUtilisateur(identifiant))
         elif choix == "4":
-            donnees_utilisateurs = utilisateurs.Utilisateurs.saisie_utilisateur(list)
-            print(utilisateurs.Utilisateurs.AjouterUtilisateur(donnees_utilisateurs))
+            identifiant = input('Quel est le pseudo à modifier ? ')
+            donnees_utilisateur = admin.saisie_utilisateur()
+            print(admin.modifierUtilisateur(identifiant, donnees_utilisateur))
         elif choix == "5":
-            identifiant = input('Nom de l\'application')
-            print(application.supprimerapplication(identifiant))
-        elif choix == "6":
-            identifiant = input('Nom de l\'application')
-            print(application.supprimerapplication(identifiant))
+            identifiant = input('Pseudo de l\'utilsateur à supprimer : ')
+            print(admin.supprimerUtilisateur(identifiant))
         else :
             print("Merci de saisir un choix valide")
     elif choix_utilisateur_qcm == "2":
         choix = input('Choisir : 1 - Liste des catégories,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
         if choix == "1":
-            for un_application in application.listeapplications():
-                print(un_application)
+            for un_qcm in admin.liste_QCM():
+                print(un_qcm)
         elif choix == "2":
-            donnees_application = application.saisie_application()
-            print(application.ajouterapplication(donnees_application))
+            donnees_QCM = admin.saisie_QCM()
+            print(admin.Ajouter_QCM(donnees_QCM))
         elif choix == "3":
-            identifiant = input('Nom de l\'application')
-            print(application.voirapplication(identifiant))
+            identifiant = input('Id du QCM : ')
+            print(admin.voirUtilisateur(identifiant))
         elif choix == "4":
-            for un_application in application.listeapplications():
-                print(un_application[1])
-            choix_app = input('Quelle application (nom) voulez vous modifier')
-            app = application.voirapplication(choix_app)
-            donnees_application = application.saisie_application(app)
-            print(application.modifierapplication(donnees_application))
+            identifiant = input('Quel est le pseudo à modifier ? ')
+            donnees_utilisateur = admin.saisie_utilisateur()
+            print(admin.modifierUtilisateur(identifiant, donnees_utilisateur))
         elif choix == "5":
-            identifiant = input('Nom de l\'application')
-            print(application.supprimerapplication(identifiant))
-        elif choix == "6":
-            identifiant = input('Nom de l\'application')
-            print(application.supprimerapplication(identifiant))
+            identifiant = input('Pseudo de l\'utilsateur à supprimer : ')
+            print(admin.supprimerUtilisateur(identifiant))
         else :
             print("Merci de saisir un choix valide")
     else :
