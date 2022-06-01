@@ -43,11 +43,11 @@ pipeline {
        always{
              post {
           always {
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'gradle/flake-report', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Gradle/test-reports', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
             recordIssues(
-                    tools: [pep8(pattern: 'gradle/result-pycode.report')]
+                    tools: [pep8(pattern: 'Gradle/test-reports/flake8/result-pycode.report')]
                 )
-            junit 'test-reports/flake8/*.xml'
+            junit 'Gradle/test-reports/flake8/*.xml'
           }
       }
 }
