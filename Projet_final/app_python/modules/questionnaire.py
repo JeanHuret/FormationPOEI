@@ -64,7 +64,7 @@ class Questionnaire:
             self.__reponse3 = reponse3  
 
     # Lister les questionnaire avec les caractéristiques suivantes : 
-    def listequestionnaire(self):
+    def liste_questionnaire(self):
         cursor = self.__questionnaire.cursor()
         cursor.execute('SELECT * FROM questionnaire;')
         liste_questionnaire = cursor.fetchall()
