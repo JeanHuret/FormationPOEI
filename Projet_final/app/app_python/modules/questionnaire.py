@@ -133,9 +133,10 @@ class Questionnaire:
     
     # Permettre de modifier une application à partir de son hostname
     def modifier_questionnaire(self, nouvelle_donnees):
+        print(nouvelle_donnees)
         try: 
             cursor = self.__connexion.cursor()
-            cursor.execute('UPDATE QCM SET `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3` = ? WHERE `qcm_id` = ?;',(nouvelle_donnees[0], nouvelle_donnees[1], nouvelle_donnees[2], nouvelle_donnees[3], nouvelle_donnees[4], nouvelle_donnees[5], nouvelle_donnees[6],))
+            cursor.execute('UPDATE QCM SET `categorie` = ?, `categorie_id` = ?, `question` = ?, `reponse1` = ?, `reponse2` = ?, `reponse3` = ? WHERE `qcm_id` = ?;',(nouvelle_donnees[1], nouvelle_donnees[2], nouvelle_donnees[3], nouvelle_donnees[4], nouvelle_donnees[5], nouvelle_donnees[6], nouvelle_donnees[0],))
             self.__connexion.commit()
             return self.voir_questionnaire(nouvelle_donnees[0])
         except mariadb.Error as e:     
