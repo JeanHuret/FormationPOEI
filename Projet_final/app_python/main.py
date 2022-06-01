@@ -1,4 +1,5 @@
 import configdb
+import mariadb
 import modules.connexiondb as db
 import modules.qcm as qcm
 import modules.utilisateurs as utilisateurs

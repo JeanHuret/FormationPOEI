@@ -1,4 +1,5 @@
 import mariadb
+
 class Utilisateurs:
     
     def __init__(self, qcm, connexion) -> None:
