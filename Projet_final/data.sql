@@ -74,6 +74,6 @@ CREATE TABLE IF NOT EXISTS utilisateurs (
     `nom` VARCHAR(256) NOT NULL,
     `role` VARCHAR(256) NOT NULL,
     `email` VARCHAR(256) NOT NULL,
-    `password` VARCHAR(16)
+    `mot_de_passe` VARCHAR(16)
 
 );
