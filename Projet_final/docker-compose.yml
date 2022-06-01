@@ -1,160 +1,135 @@
-
-
-  version: "3.7"
-
-
-  services:
-
-    jenkins:
-
-      ports: 
-
-        - "8098:8080"
-
-        - "50000:50000"
-
-      image: jenkins/jenkins
-
-      volumes:
-
-      - jenkins_home:/var/jenkins_home 
-
-
-    master:
-
-      links: 
-
-        - jenkins
-
-      image: alpine:latest
-
-      container_name: master
-
-      hostname: master-ansible
-
-      depends_on:
-
-        - "host01"
-
-        - "host02"
-
-      stdin_open: true
-
-      tty: true
-
-      command : >
-
-        /bin/sh -c "apk update 
-
-        apk add ansible 
-
-        apk add --no-cache openssh
-
-        apk add --no-cache sshpass
-
-        mkdir /etc/ansible
-
-        cp ./files/hosts /etc/ansible
-
-        ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa 
-
-        sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@application
-
-        sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@dbserver
-     
-        /bin/sh"
-
-      volumes:
-
-        - ansible_vol:/var/ans
-
-        - ./files/:/files/
-
-        - ./sshpassword.txt:/root/sshpassword.txt
-
-    host01:
-
-      image: ubuntu
-
-      container_name: application
-
-      hostname: application
-
-      stdin_open: true
-
-      tty: true
-
-      command : >
-
-        bash -c "apt update && apt upgrade -y 
-
-        DEBIAN_FRONTEND=noninteractive 
-
-        mkdir /run/sshd 
-
-        apt install -y apt --no-install-recommends python3 openssh-server sudo
-
-        sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-        sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-
-        echo 'root:toor' | chpasswd 
-
-        /usr/sbin/sshd -D"
-
-      expose: 
-
-        - 22
-
-      volumes:
-
-       - ansible_vol:/var/ans
-
-
-    host02:
-
-      image: ubuntu
-
-      container_name: dbserver
-
-      hostname: dbserver
-
-      stdin_open: true
-
-      tty: true
-
-      command : >
-
-        bash -c "apt update && apt upgrade -y 
-
-        DEBIAN_FRONTEND=noninteractive 
-
-        mkdir /run/sshd 
-
-        apt install -y apt --no-install-recommends python3 openssh-server sudo 
-
-        sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-        sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-
-        echo 'root:toor' | chpasswd 
-
-        /usr/sbin/sshd -D"
-
-      expose: 
-
-        - 22
-
-      ports:
-
-        - 3306:3306
-
-      volumes:
-
-        - ansible_vol:/var/ans
-
-  volumes:
-
-    ansible_vol:
-
-    jenkins_home: {}
+version: '3'
+services:
+  
+  jenkins:
+    depends_on:
+      - master
+    ports: 
+      - "8098:8080"
+      - "50000:50000"
+    build: Jenkins/
+    volumes:
+      - jenkins_home:/var/jenkins_home
+
+  gradle:
+    depends_on:
+      - jenkins
+    volumes:
+      - gradle:/gradle
+    ports:
+      - "8099:8081"
+    image: my_gradle
+    container_name: gradle
+
+  master:
+    image: alpine:latest
+    container_name: master01
+    hostname: master01
+    depends_on:
+      - "pythonubuntu"
+      - "pythoncentos"
+      - "dbcentos"
+      - "dbubuntu"
+    stdin_open: true
+    tty: true
+    command : >
+      /bin/sh -c "apk update 
+      && apk add ansible 
+      && apk add --no-cache openssh
+      && apk add --no-cache sshpass
+      && ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa 
+      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@pythonubuntu
+      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@pythoncentos
+      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@dbcentos
+      && sshpass -f /root/sshpassword.txt ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no root@dbubuntu
+      && /bin/sh"
+    volumes:
+      - ansible_vol:/var/ans
+      - ./files/:/files/
+      - ./hosts:/etc/ansible/hosts
+      - ./sshpassword.txt:/root/sshpassword.txt
+  pythonubuntu:
+    image: ubuntu
+    container_name: pythonubuntu
+    hostname: pythonubuntu
+    stdin_open: true
+    tty: true
+    command : >
+      bash -c "apt update && apt upgrade -y 
+      &&  DEBIAN_FRONTEND=noninteractive 
+      &&  mkdir /run/sshd 
+      &&  apt install -y apt --no-install-recommends python3 openssh-server sudo
+      &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+      &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+      &&  echo 'root:toor' | chpasswd 
+      && /usr/sbin/sshd -D"
+    expose: 
+      - 22
+    volumes:
+     - ansible_vol:/var/ans
+  pythoncentos:
+    build: centos/
+    container_name: pythoncentos
+    hostname: pythoncentos
+    stdin_open: true
+    tty: true
+    command: >
+      /bin/sh -c "yum update -y 
+      &&  yum install -y openssh-server python39 
+      &&  yum clean all 
+      &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
+      &&  echo 'root:toor' | chpasswd 
+      && ssh-keygen -A
+      && /usr/sbin/sshd -D"
+    expose: 
+      - 22
+    volumes:
+     - ansible_vol:/var/ans
+  dbubuntu:
+    image: ubuntu
+    container_name: dbubuntu
+    hostname: dbubuntu
+    stdin_open: true
+    tty: true
+    command : >
+      bash -c "apt update && apt upgrade -y 
+      &&  DEBIAN_FRONTEND=noninteractive 
+      &&  mkdir /run/sshd 
+      &&  apt install -y apt --no-install-recommends python3 openssh-server sudo 
+      &&  sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+      &&  sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+      &&  echo 'root:toor' | chpasswd 
+      && /usr/sbin/sshd -D"
+    expose: 
+      - 22
+    ports:
+      - 3307:3306
+    volumes:
+     - ansible_vol:/var/ans
+  dbcentos:
+    image: centos/systemd 
+    container_name: dbcentos
+    hostname: dbcentos
+    stdin_open: true
+    tty: true
+    privileged: true
+    command: >
+      /bin/sh -c "yum update -y 
+      &&  yum install -y openssh-server python39 
+      &&  yum clean all 
+      &&  sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config 
+      &&  echo 'root:toor' | chpasswd 
+      && ssh-keygen -A
+      && /usr/sbin/sshd -D"
+    expose: 
+      - 22
+    ports:
+      - 3308:3306
+    volumes:
+     - ansible_vol:/var/ans
+     - dbcentos_vol:/sys/fs/cgroup:ro
+volumes:
+  gradle: {}
+  jenkins_home: {}
+  ansible_vol: {}
+  dbcentos_vol:

@@ -1,0 +1,53 @@
+pipeline {
+ agent any
+  stages {
+    stage('clone'){
+      steps {
+        git url: 'https://github.com/JeanHuret/FormationPOEI.git'
+      }
+    }
+    stage('Build'){
+      tools {
+        gradle 'gradle'
+      }
+      steps {
+        sh 'cd Projet_final/Gradle && gradle purge'
+        sh 'cd Projet_final/Gradle && gradle dependance'       
+      }
+    } 
+    stage('Rapport qualité'){
+      tools {
+        gradle 'gradle'
+      }
+      steps { 
+        parallel (
+          pylint: {
+            sh 'cd Projet_final/Gradle && gradle lint'
+          },
+          pycode: {
+            sh 'cd Projet_final/Gradle && gradle pycodestyle'
+          }
+        )
+      }
+    }
+    stage('Package') {
+      tools {
+        gradle 'gradle'
+      }
+      steps {
+        sh 'cd Projet_final/Gradle && gradle packageDistribution'
+      }
+    }
+  }
+  post {
+       always{
+             post {
+          always {
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'gradle/flake-report', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
+            recordIssues(
+                    tools: [pep8(pattern: 'gradle/result-pycode.report')]
+                )
+            junit 'test-reports/flake8/*.xml'
+          }
+      }
+}
