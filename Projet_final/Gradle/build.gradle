@@ -19,6 +19,12 @@ task lint (type:Exec, dependsOn:dependance){
     ignoreExitValue true
 }
 
+task pycodestyle(type:Exec, dependsOn:lint) {
+    executable 'sh'
+    args '-c', "pycodestyle test-reports/flake8/ >> result-pycode.report"
+    ignoreExitValue true
+}
+   
 task packageDistribution(type:Zip, dependsOn:lint){
     from('/project') into ('.')
     archiveFileName = 'demo-python.zip'
