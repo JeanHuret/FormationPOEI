@@ -1,7 +1,7 @@
 import mariadb
 class Utilisateurs:
     
-    def __init__(self, qcm, liste_categorie, connexion) -> None:
+    def __init__(self, qcm, connexion) -> None:
         # Propriété de l'objet utilisateur
         self.__id = ''
         self.__pseudo = ''
@@ -79,17 +79,17 @@ class Utilisateurs:
 
     def saisie_utilisateur(self):
         liste_donnees = []
-        pseudo = input('Quel est votre pseudo ?')
+        pseudo = input('Quel est votre pseudo ? : ')
         liste_donnees.append(pseudo)
-        prenom = input('Quel est votre prenom ?')
+        prenom = input('Quel est votre prenom ? : ')
         liste_donnees.append(prenom)
-        nom = input('Quel est votre nom ?')
+        nom = input('Quel est votre nom ? : ')
         liste_donnees.append(nom)
-        role = input('Etes-vous admin ou membre ?')
+        role = input('Etes-vous admin ou membre ? : ')
         liste_donnees.append(role)
-        email = input('Quel est votre email ?') 
+        email = input('Quel est votre email ? : ') 
         liste_donnees.append(email)
-        mot_de_passe = input('Quel est votre mot de passe ?')
+        mot_de_passe = input('Quel est votre mot de passe ? : ')
         liste_donnees.append(mot_de_passe)
         return liste_donnees
 

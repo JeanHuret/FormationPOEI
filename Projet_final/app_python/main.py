@@ -3,73 +3,79 @@ import modules.connexiondb as db
 import modules.qcm as qcm
 import modules.utilisateurs as utilisateurs
 
-bdd = db.ConnectDb(configdb.config)
+bdd = db.ConnexionDb(configdb.config)
 connexion = bdd.connect()
 
-choix = input('1- Se connecter, 2- S\'inscrire : ')
-dico = {'id':'jeannot','_nom':'Huret','_prenom':'Jean','role':'membre','email':'jean.huret@gmail.com', '__mot_de_passe':'shuuuut4'}
-user = utilisateurs.Utilisateurs(dico)
-if choix == '1':
-    pseudo = input('Identifiant : ')
-    password = input('Mot de passe : ')
-    user.connexionUtilisateur(pseudo, password)   
-    if user.connecte:
-        print('Utilisateur connecté')
-        if user.role == 'membre':
-                choix_membre = input('1-Modification de votre fiche, 2-Liste QCM, 3-Choisir QCM : ')
-                if choix_membre == '1':
-                    membre1 = membre.Membre(dico)
-                    membre1.connecte = True
-                    membre1.modifieMesInfos(dico)
-                elif choix_membre == '2':
-                    for un_QCM in qcm.listeQCM():
-                        print(un_QCM)
-               # elif choix_membre == '3':
-        elif user.role == 'admin':
-                choix_admin = input('1-Supprimer un membre, 2-Liste Utilisateur, 3-Liste QCM, 4-Ajouter QCM, 5-Modifier QCM, 6-Supprimer un QCM : ')
-                if choix_admin == "1":
-                    id_user_supp = input('Quel est le pseudo de l\'utilisateur que vous voulez supprimer?')
-                    user.SupprimeUtilisateur(id_user_supp)              
-                elif choix_admin == "2":
-                    id_user_supp = input('Quel est le pseudo de l\'utilisateur que vous voulez supprimer?')
-                    user.SupprimeUtilisateur(id_user_supp)
-               # elif choix_membre == '4': 
-elif choix == '2':
-    id = input('Identifiant : ')
-    prenom = input('Prénom : ')
-    nom = input('Nom : ')
-    role = input('role : ')
-    email = input('email : ')
-    mot_de_passe = input('mot de passe : ')
-    print(user.AjoutUtilisateur(id, prenom, nom, role, email, mot_de_passe ))
-else: 
-    print('Merci de rentrer un identifiant ou un mot de passe valide')
-
-
-
-
-
-
-
-
-    # qcm = qcm.QCM()
-    # choix = input('Choisir 1 - Liste, 2 - Ajout, 3 - Voir un QCM, 4 - Supprimer')
-    # if choix == "1":
-    #     for un_QCM in qcm.listeQCM():
-    #         print(un_QCM)
-    # elif choix == "2":
-    #     nom_du_QCM = input('Nom du QCM')
-    #     descriptif = input('descriptif')
-    #     categorie = input('categorie')
-    #     duree = input ('duree')
-    #     print(qcm.ajoutQCM(nom_du_QCM, descriptif, categorie, duree))
-    # elif choix == "3":
-    #     identifiant = input('Nom du QCM') 
-#        print(qcm.voirQCM(identifiant))
-#    elif choix == "4":
-#        identifiant = input('Nom du QCM')
-#        print(qcm.supprimerQCM(identifiant))
- #   else :
- #        print("Merci de saisir  un choix valide")
-# else :
-        # print("Merci de saisir  un choix valide")"
+choix_donnees = input('Choisir : 1 - Membre, 2 - Admin : ')
+if choix_donnees == "1":
+    questionnaire = qcm.Questionnaire(utilisateurs, connexion)
+    membre = utilisateurs.Membre(qcm, connexion)
+    choix = input('Choisir : 1 - Liste des QCM, 2 - Faire un QCM 3 - Modifier ses informations : ')
+    if choix == "1":
+        for un_machine in machine.listeMachines():
+            print(un_machine)
+    elif choix == "2":
+        donnees_machines = machine.saisie_machine()
+        print(machine.ajouterMachine(donnees_machines))
+    elif choix == "3":
+        donnees_utilisateurs = membre.saisie_utilisateur()
+        print(membre.AjouterUtilisateur(donnees_utilisateurs))
+    
+    else :
+        print("Merci de saisir un choix valide")
+elif choix_donnees == "2":
+    questionnaire = qcm.Questionnaire(utilisateurs, connexion)
+    admin = utilisateurs.Admin(qcm, connexion)
+    choix_utilisateur_qcm = input('Choisir : 1 - Gérer les utilisateurs 2 - Gérer les QCM : ')
+    if choix_utilisateur_qcm == "1":
+        choix = input('Choisir : 1 - Liste des utilisateurs,  2 - Ajouter un utilisateur, 3 - Voir un utilisateur, 4 - Modifier un utilisateur, 5 - Supprimer un utilisateur : ')
+        if choix == "1":
+            for un_application in application.listeapplications():
+                print(un_application)
+        elif choix == "2":
+            donnees_application = application.saisie_application()
+            print(application.ajouterapplication(donnees_application))
+        elif choix == "3":
+            identifiant = input('Nom de l\'application')
+            print(application.voirapplication(identifiant))
+        elif choix == "4":
+            donnees_utilisateurs = utilisateurs.Utilisateurs.saisie_utilisateur(list)
+            print(utilisateurs.Utilisateurs.AjouterUtilisateur(donnees_utilisateurs))
+        elif choix == "5":
+            identifiant = input('Nom de l\'application')
+            print(application.supprimerapplication(identifiant))
+        elif choix == "6":
+            identifiant = input('Nom de l\'application')
+            print(application.supprimerapplication(identifiant))
+        else :
+            print("Merci de saisir un choix valide")
+    elif choix_utilisateur_qcm == "2":
+        choix = input('Choisir : 1 - Liste des catégories,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
+        if choix == "1":
+            for un_application in application.listeapplications():
+                print(un_application)
+        elif choix == "2":
+            donnees_application = application.saisie_application()
+            print(application.ajouterapplication(donnees_application))
+        elif choix == "3":
+            identifiant = input('Nom de l\'application')
+            print(application.voirapplication(identifiant))
+        elif choix == "4":
+            for un_application in application.listeapplications():
+                print(un_application[1])
+            choix_app = input('Quelle application (nom) voulez vous modifier')
+            app = application.voirapplication(choix_app)
+            donnees_application = application.saisie_application(app)
+            print(application.modifierapplication(donnees_application))
+        elif choix == "5":
+            identifiant = input('Nom de l\'application')
+            print(application.supprimerapplication(identifiant))
+        elif choix == "6":
+            identifiant = input('Nom de l\'application')
+            print(application.supprimerapplication(identifiant))
+        else :
+            print("Merci de saisir un choix valide")
+    else :
+        print("Merci de saisir un choix valide")        
+else :
+    print("Merci de saisir un choix valide")

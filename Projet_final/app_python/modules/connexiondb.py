@@ -21,3 +21,5 @@ class ConnexionDb:
             return conn
         except mariadb.Error as e:
             return f"Error connecting to MariaDB Platform: {e}"
+
+
