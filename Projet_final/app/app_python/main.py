@@ -63,7 +63,7 @@ elif choix_donnees == "2":
         elif choix == "4":
             identifiant = input('quel est l id du QCM ? ')
             donnees_utilisateur = admin.saisie_utilisateur()
-            print(questionnaire.modifier_questionnaire(identifiant, donnees_utilisateur))
+            print(questionnaire.modifier_questionnaire( donnees_utilisateur))
         elif choix == "5":
             identifiant = input('id du QCM à supprimer : ')
             print(questionnaire.supprimer_questionnaire(identifiant))
