@@ -22,8 +22,7 @@ if choix_donnees == "1":
         identifiant = input('Quel est le pseudo à modifier ? : ')
         donnees_utilisateur = membre.saisie_utilisateur()
         print(membre.modifierUtilisateur(identifiant, donnees_utilisateur))
-    
-    else :
+    else:
         print("Merci de saisir un choix valide")
 elif choix_donnees == "2":
     questionnaire = Qcm(connexion)
@@ -47,9 +46,9 @@ elif choix_donnees == "2":
         elif choix == "5":
             identifiant = input('Pseudo de l\'utilsateur à supprimer : ')
             print(admin.supprimerUtilisateur(identifiant))
-        else :
+        else:
             print("Merci de saisir un choix valide")
-    elif choix_utilisateur_qcm == "2":
+    elif choix_utilisateur_qcm =="2":
         choix = input('Choisir : 1 - Liste QCM,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
         if choix == "1":
             for un_qcm in questionnaire.liste_data_qcm():
@@ -67,9 +66,9 @@ elif choix_donnees == "2":
         elif choix == "5":
             identifiant = input('id du QCM à supprimer : ')
             print(questionnaire.supprimer_data_qcm(identifiant))
-        else :
+        else:
             print("Merci de saisir un choix valide")
-    else :
+    else:
         print("Merci de saisir un choix valide")        
-else :
+else:
     print("Merci de saisir un choix valide")
