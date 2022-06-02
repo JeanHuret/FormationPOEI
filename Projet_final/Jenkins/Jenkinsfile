@@ -47,9 +47,7 @@ pipeline {
       }
     }
   }      
-  post {
-       always{
-             post {
+        post {
           always {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Gradle/test-reports', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
             recordIssues(
