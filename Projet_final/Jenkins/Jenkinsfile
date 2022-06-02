@@ -1,7 +1,7 @@
 pipeline {
  agent any
     environment {
-            PATH = "/var/jenkins_home/.local/bin:${env.PATH}"
+            PATH = "/var/jenkins_home/.local/lib/python3.9/site-packages:${env.PATH}"
         }
   stages {
     stage('clone'){
@@ -41,11 +41,11 @@ pipeline {
         sh 'cd Projet_final/app/app_python && gradle packageDistribution'
       }
     }
-    stage ('Ansible'){
-      steps {
-        ansiblePlaybook installation: 'ansible', inventory: 'Projet_final/hosts', playbook: 'Projet_final/playbook.yml'
-      }
-    }
+    // stage ('Ansible'){
+    //   steps {
+    //     ansiblePlaybook installation: 'ansible', inventory: 'Projet_final/hosts', playbook: 'Projet_final/playbook.yml'
+    //   }
+    // }
   }      
         post {
           always {
