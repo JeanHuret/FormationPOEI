@@ -1,8 +1,7 @@
-from app.app_python.modules.questionnaire2 import questionnaire_qcm
 import configdb
 import mariadb
 import modules.connexiondb as db
-import modules.questionnaire as qcm
+from modules.qcm import Qcm
 import modules.utilisateurs as utilisateurs
 
 bdd = db.ConnexionDb(configdb.config)
@@ -10,8 +9,8 @@ connexion = bdd.connect()
 
 choix_donnees = input('Choisir : 1 - Membre, 2 - Admin : ')
 if choix_donnees == "1":
-    questionnaire = questionnaire.QCM(utilisateurs, connexion)
-    membre = utilisateurs.Membre(qcm, connexion)
+    questionnaire = Qcm(utilisateurs, connexion)
+    membre = utilisateurs.Membre(Qcm, connexion)
     choix = input('Choisir : 1 - Liste des QCM, 2 - Faire un QCM 3 - Modifier ses informations : ')
     if choix == "1":
         for un_qcm in questionnaire.liste_data_qcm():
@@ -27,7 +26,7 @@ if choix_donnees == "1":
     else :
         print("Merci de saisir un choix valide")
 elif choix_donnees == "2":
-    questionnaire = qcm.Qcm.data_qcm(connexion)
+    questionnaire = Qcm(connexion)
     admin = utilisateurs.Admin(utilisateurs, connexion)
     choix_utilisateur_qcm = input('Choisir : 1 - Gérer les utilisateurs 2 - Gérer les QCM : ')
     if choix_utilisateur_qcm == "1":
