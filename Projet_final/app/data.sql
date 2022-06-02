@@ -7,9 +7,9 @@ CREATE TABLE IF NOT EXISTS QCM (
 
     `qcm_id` INT(10) AUTO_INCREMENT PRIMARY KEY,
 
-    `categorie_id` INT(10),
-
     `categorie` VARCHAR(256),
+
+    `categorie_id` INT(10),
 
     `question` VARCHAR(256),
 
