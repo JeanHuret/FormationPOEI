@@ -49,7 +49,7 @@ pipeline {
   }      
         post {
           always {
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'test-reports', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Projet_final/app/app_python/test-reports/flake8', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
             recordIssues(
                     tools: [pep8(pattern: 'Projet_final/app/app_python/test-reports/flake8/result-pycode.report')]
                 )
