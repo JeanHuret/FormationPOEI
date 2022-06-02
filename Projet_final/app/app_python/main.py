@@ -11,7 +11,8 @@ choix_donnees = input('Choisir : 1 - Membre, 2 - Admin : ')
 if choix_donnees == "1":
     questionnaire = Qcm(utilisateurs, connexion)
     membre = utilisateurs.Membre(Qcm, connexion)
-    choix = input('Choisir : 1 - Liste des QCM, 2 - Faire un QCM 3 - Modifier ses informations : ')
+    choix = input('Choisir : 1 - Liste des QCM, 2 - \
+     Faire un QCM 3 - Modifier ses informations : ')
     if choix == "1":
         for un_qcm in questionnaire.liste_data_qcm():
             print(un_qcm)
@@ -27,9 +28,12 @@ if choix_donnees == "1":
 elif choix_donnees == "2":
     questionnaire = Qcm(connexion)
     admin = utilisateurs.Admin(utilisateurs, connexion)
-    choix_utilisateur_qcm = input('Choisir : 1 - Gérer les utilisateurs 2 - Gérer les QCM : ')
+    choix_utilisateur_qcm = input('Choisir : 1 - Gérer les utilisateurs \
+    2 - Gérer les QCM : ')
     if choix_utilisateur_qcm == "1":
-        choix = input('Choisir : 1 - Liste des utilisateurs,  2 - Ajouter un utilisateur, 3 - Voir un utilisateur, 4 - Modifier un utilisateur, 5 - Supprimer un utilisateur : ')
+        choix = input('Choisir : 1 - Liste des utilisateurs, \
+         2 - Ajouter un utilisateur, 3 - Voir un utilisateur,\
+         4 - Modifier un utilisateur, 5 - Supprimer un utilisateur : ')
         if choix == "1":
             for un_utilisateur in admin.listeUtilisateurs():
                 print(un_utilisateur)
@@ -48,8 +52,9 @@ elif choix_donnees == "2":
             print(admin.supprimerUtilisateur(identifiant))
         else:
             print("Merci de saisir un choix valide")
-    elif choix_utilisateur_qcm =="2":
-        choix = input('Choisir : 1 - Liste QCM,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
+    elif choix_utilisateur_qcm == "2":
+        choix = input('Choisir : 1 - Liste QCM,  2 - Ajouter un QCM,\
+        3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
         if choix == "1":
             for un_qcm in questionnaire.liste_data_qcm():
                 print(un_qcm)
