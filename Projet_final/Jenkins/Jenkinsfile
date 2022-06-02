@@ -51,7 +51,7 @@ pipeline {
           always {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Projet_final/app/app_python/test-reports/flake8', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
             recordIssues(
-                    tools: [pep8(pattern: 'Projet_final/app/app_python/test-reports/flake8/result-pycode.report')]
+                    tools: [pep8(pattern: 'Projet_final/app/app_python/result-pycode.report')]
                 )
            // junit 'Projet_final/app/app_python/test-reports/flake8/*.xml'
           
