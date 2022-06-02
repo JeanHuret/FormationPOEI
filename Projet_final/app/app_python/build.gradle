@@ -15,7 +15,7 @@ task dependance(type:Exec, dependsOn:purge){
   
 task lint (type:Exec, dependsOn:dependance){
     executable 'sh'
-    args '-c', 'mkdir -p test-reports/flake8 && flake8 --format-html --htmldir=test-reports/flake8 ./*.py'
+    args '-c', 'mkdir -p test-reports/flake8 && flake8 --format=html --htmldir=test-reports/flake8 ./*.py'
     ignoreExitValue true
 }
 
