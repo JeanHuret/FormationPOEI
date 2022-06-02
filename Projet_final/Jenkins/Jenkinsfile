@@ -11,8 +11,8 @@ pipeline {
         gradle 'gradle'
       }
       steps {
-        sh 'cd Projet_final/Gradle && gradle purge'
-        sh 'cd Projet_final/Gradle && gradle dependance'       
+        sh 'cd Projet_final/app/app_python && gradle purge'
+        sh 'cd Projet_final/app/app_python && gradle dependance'       
       }
     } 
     stage('Rapport qualité'){
@@ -22,10 +22,10 @@ pipeline {
       steps { 
         parallel (
           pylint: {
-            sh 'cd Projet_final/Gradle && gradle lint'
+            sh 'cd Projet_final/app/app_python && gradle lint'
           },
           pycode: {
-            sh 'cd Projet_final/Gradle && gradle pycodestyle'
+            sh 'cd Projet_final/app/app_python && gradle pycodestyle'
           }
         )
       }
@@ -35,19 +35,26 @@ pipeline {
         gradle 'gradle'
       }
       steps {
-        sh 'cd Projet_final/Gradle && gradle packageDistribution'
+        sh 'cd Projet_final/app/app_python && gradle packageDistribution'
       }
     }
-  }
+    stage ('Ansible'){
+      steps {
+        ansiblePlaybook installation: 'ansible', inventory: 'Projet_final/hosts', playbook: 'Projet_final/playbook.yml'
+      }
+    }
+  }      
   post {
        always{
              post {
           always {
             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Gradle/test-reports', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
             recordIssues(
-                    tools: [pep8(pattern: 'Gradle/test-reports/flake8/result-pycode.report')]
+                    tools: [pep8(pattern: 'Projet_final/app/app_python/test-reports/flake8/result-pycode.report')]
                 )
-            junit 'Gradle/test-reports/flake8/*.xml'
+            junit 'Projet_final/app/app_python/test-reports/flake8/*.xml'
           }
       }
+    }
+  }
 }
