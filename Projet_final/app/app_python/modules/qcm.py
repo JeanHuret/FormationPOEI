@@ -65,70 +65,70 @@ class Qcm:
 
     # Lister les questionnaire avec les caractéristiques suivantes : 
     def liste_data_qcm(self):
-        cursor = self.__data_qcm.cursor()
-        cursor.execute('SELECT * FROM QCM;')
-        liste_questionnaire = cursor.fetchall()
-        return liste_questionnaire
+        cursor = self.__connexion.cursor()
+        cursor.execute('SELECT * FROM QCM')
+        liste_qcm = cursor.fetchall()
+        return liste_qcm
 
 
-    def saisie_data_qcm(self, liste_donnees = []):
-        if liste_donnees:
-            liste_donnees = list(liste_donnees)
-            qcm_id = input('Quel est l\'id du qcm?('+str(liste_donnees[1])+')' ) or liste_donnees[1] 
-            categorie = input('Quel est la categorie?('+str(liste_donnees[2])+')') or liste_donnees[2] 
-            categorie_id = input('Quel est la categorie_id?('+str(liste_donnees[2])+')') or liste_donnees[3] 
-            question = input('Quel est la question?('+str(liste_donnees[2])+')') or liste_donnees[4] 
-            reponse1 = input('Quel est la premiere reponse possible a la question?('+str(liste_donnees[3])+')') or liste_donnees[5] 
-            reponse2 = input('Quel est la deuxieme reponse possible a la question?('+str(liste_donnees[4])+')') or liste_donnees[6]
-            reponse3 = input('Quel est la troisieme reponse possible a la question?('+str(liste_donnees[5])+')') or liste_donnees[7]
-            ancien_id = liste_donnees[0]
-            liste_donnees[0] = qcm_id
-            liste_donnees[1] = categorie
-            liste_donnees[2] = categorie_id
-            liste_donnees[3] = question
-            liste_donnees[4] = reponse1
-            liste_donnees[5] = reponse2
-            liste_donnees[6] = reponse3
-            liste_donnees[7] = ancien_id
+    def saisie_data_qcm(self, liste_qcm = []):
+        if liste_qcm:
+            liste_qcm = Qcm(liste_qcm)
+            qcm_id = input('Quel est l\'id du qcm?('+str(liste_qcm[1])+')' ) or liste_qcm[1] 
+            categorie = input('Quel est la categorie?('+str(liste_qcm[2])+')') or liste_qcm[2] 
+            categorie_id = input('Quel est la categorie_id?('+str(liste_qcm[2])+')') or liste_qcm[3] 
+            question = input('Quel est la question?('+str(liste_qcm[2])+')') or liste_qcm[4] 
+            reponse1 = input('Quel est la premiere reponse possible a la question?('+str(liste_qcm[3])+')') or liste_qcm[5] 
+            reponse2 = input('Quel est la deuxieme reponse possible a la question?('+str(liste_qcm[4])+')') or liste_qcm[6]
+            reponse3 = input('Quel est la troisieme reponse possible a la question?('+str(liste_qcm[5])+')') or liste_qcm[7]
+            ancien_id = liste_qcm[0]
+            liste_qcm[0] = qcm_id
+            liste_qcm[1] = categorie
+            liste_qcm[2] = categorie_id
+            liste_qcm[3] = question
+            liste_qcm[4] = reponse1
+            liste_qcm[5] = reponse2
+            liste_qcm[6] = reponse3
+            liste_qcm[7] = ancien_id
 
-        else: 
-            qcm_id = input('Quel est l\'id du questionnaire?')
+        else:
+            qcm_id = int(input('Quel est l\'id du qcm?'))
             categorie = input('Quel est la categorie?')
-            categorie_id = input('Quel est la categorie_id?')
+            categorie_id = int(input('Quel est la categorie_id?'))
             question = input('Quel est la question?') 
             reponse1 = input('Quel est la premiere reponse possible a la question?')
             reponse2 = input('Quel est la deuxieme reponse possible a la question?')
             reponse3 = input('Quel est la troisieme reponse possible a la question?')
-            liste_donnees.append(qcm_id)
-            liste_donnees.append(categorie)
-            liste_donnees.append(categorie_id)
-            liste_donnees.append(question)
-            liste_donnees.append(reponse1)
-            liste_donnees.append(reponse2)
-            liste_donnees.append(reponse3)
+            liste_qcm.append(qcm_id)
+            liste_qcm.append(categorie)
+            liste_qcm.append(categorie_id)
+            liste_qcm.append(question)
+            liste_qcm.append(reponse1)
+            liste_qcm.append(reponse2)
+            liste_qcm.append(reponse3)
 
-        return liste_donnees
+        return liste_qcm
 
     # • Permettre l’ajout d’une application
-    def ajouter_data_qcm(self, liste_donnees):
+    def ajouter_data_qcm(self, liste_qcm):
+        print(liste_qcm)
         try:
             cursor = self.__connexion.cursor()
-            cursor.execute('INSERT INTO QCM ( `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3`)  VALUES (?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6]))
+            cursor.execute('INSERT INTO QCM ( `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3`)  VALUES (?, ?, ?, ?, ?, ?);',(liste_qcm[1], liste_qcm[2], liste_qcm[3], liste_qcm[4], liste_qcm[5], liste_qcm[6],))
             self.__connexion.commit()
             return 'La question a bien été ajoutée'
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '
 
-
-    def trouver_data_qcm(self,questionnaire):
+    def trouver_data_qcm(self, qcm_id):
         cursor = self.__connexion.cursor()
-        cursor.execute('SELECT * FROM QCM WHERE qcm_id = ?;',(questionnaire,))
+        cursor.execute('SELECT * FROM QCM WHERE qcm_id = ?;',(qcm_id,))
         qcm_a_afficher = cursor.fetchone()
         return qcm_a_afficher
 
     # Permettre de récupérer les informations d’une application en saisissant son hostname
-    def voir_data_qcm(self, questionnaire) :
-        qcm_a_afficher = self.trouver_unqcm(questionnaire)
+    def voir_data_qcm(self, qcm_id) :
+        qcm_a_afficher = self.trouver_un_qcm(qcm_id)
         return qcm_a_afficher
     
     # Permettre de modifier une application à partir de son hostname
@@ -143,10 +143,10 @@ class Qcm:
             return f'Erreur lors de la suppression {e} '
 
     # Permettre de supprimer une application
-    def supprimer_data_qcm(self, questionnaire):
+    def supprimer_data_qcm(self, qcm_id):
         try :
             cursor = self.__connexion.cursor()
-            cursor.execute('DELETE FROM QCM WHERE qcm_id = ?;',(questionnaire,))
+            cursor.execute('DELETE FROM QCM WHERE qcm_id = ?;',(qcm_id,))
             self.__connexion.commit()
             return 'La question a bien été supprimée'
         except mariadb.Error as e:     

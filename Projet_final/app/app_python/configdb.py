@@ -3,5 +3,5 @@ config = {
     'password' : 'formation',
     'host': 'localhost',
     'port': 3306,
-    'database': 'questionnaire'
+    'database': 'data_qcm'
 }
