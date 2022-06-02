@@ -54,8 +54,8 @@ pipeline {
                     tools: [pep8(pattern: 'Projet_final/app/app_python/test-reports/flake8/result-pycode.report')]
                 )
            // junit 'Projet_final/app/app_python/test-reports/flake8/*.xml'
-          }
-      }
+          
+      
     }
   }
 }
