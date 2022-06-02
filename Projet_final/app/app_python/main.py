@@ -1,3 +1,4 @@
+from app.app_python.modules.questionnaire2 import questionnaire_qcm
 import configdb
 import mariadb
 import modules.connexiondb as db
@@ -9,15 +10,15 @@ connexion = bdd.connect()
 
 choix_donnees = input('Choisir : 1 - Membre, 2 - Admin : ')
 if choix_donnees == "1":
-    questionnaire = qcm.Questionnaire(utilisateurs, connexion)
+    questionnaire = questionnaire.QCM(utilisateurs, connexion)
     membre = utilisateurs.Membre(qcm, connexion)
     choix = input('Choisir : 1 - Liste des QCM, 2 - Faire un QCM 3 - Modifier ses informations : ')
     if choix == "1":
-        for un_qcm in qcm.liste_questionnaire():
+        for un_qcm in questionnaire.liste_data_qcm():
             print(un_qcm)
     elif choix == "2":
-        donnees_qcm = qcm.saisie_questionnaire()
-        print(qcm.ajouter_questionnaire(donnees_qcm))
+        donnees_qcm = questionnaire.saisie_data_qcm()
+        print(questionnaire.ajouter_data_qcm(donnees_qcm))
     elif choix == "3":
         identifiant = input('Quel est le pseudo à modifier ? : ')
         donnees_utilisateur = membre.saisie_utilisateur()
@@ -26,7 +27,7 @@ if choix_donnees == "1":
     else :
         print("Merci de saisir un choix valide")
 elif choix_donnees == "2":
-    questionnaire = qcm.Questionnaire(connexion)
+    questionnaire = qcm.Qcm.data_qcm(connexion)
     admin = utilisateurs.Admin(utilisateurs, connexion)
     choix_utilisateur_qcm = input('Choisir : 1 - Gérer les utilisateurs 2 - Gérer les QCM : ')
     if choix_utilisateur_qcm == "1":
@@ -52,21 +53,21 @@ elif choix_donnees == "2":
     elif choix_utilisateur_qcm == "2":
         choix = input('Choisir : 1 - Liste des catégories,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
         if choix == "1":
-            for un_qcm in questionnaire.liste_questionnaire():
+            for un_qcm in questionnaire.liste_data_qcm():
                 print(un_qcm)
         elif choix == "2":
-            donnees_QCM = questionnaire.saisie_questionnaire()
-            print(questionnaire.ajouter_questionnaire(donnees_QCM))
+            donnees_QCM = questionnaire.saisie_data_qcm()
+            print(questionnaire.ajouter_data_qcm(donnees_QCM))
         elif choix == "3":
             identifiant = input('Id du QCM : ')
-            print(questionnaire.voir_questionnaire(identifiant))
+            print(questionnaire.voir_data_qcm(identifiant))
         elif choix == "4":
             identifiant = input('quel est l id du QCM ? ')
-            donnees_QCM = questionnaire.saisie_questionnaire()
-            print(questionnaire.modifier_questionnaire(donnees_QCM))
+            donnees_QCM = questionnaire.saisie_data_qcm()
+            print(questionnaire.modifier_data_qcm(donnees_QCM))
         elif choix == "5":
             identifiant = input('id du QCM à supprimer : ')
-            print(questionnaire.supprimer_questionnaire(identifiant))
+            print(questionnaire.supprimer_data_qcm(identifiant))
         else :
             print("Merci de saisir un choix valide")
     else :
