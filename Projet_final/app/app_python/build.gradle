@@ -21,7 +21,7 @@ task lint (type:Exec, dependsOn:dependance){
 
 task pycodestyle(type:Exec, dependsOn:lint) {
     executable 'sh'
-    args '-c', "pycodestyle ./*.py >> result-pycode.report"
+    args '-c', "pycodestyle ./*.py > result-pycode.report"
     ignoreExitValue true
 }
    
