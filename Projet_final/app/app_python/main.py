@@ -50,7 +50,7 @@ elif choix_donnees == "2":
         else :
             print("Merci de saisir un choix valide")
     elif choix_utilisateur_qcm == "2":
-        choix = input('Choisir : 1 - Liste des catégories,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
+        choix = input('Choisir : 1 - Liste QCM,  2 - Ajouter un QCM, 3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
         if choix == "1":
             for un_qcm in questionnaire.liste_data_qcm():
                 print(un_qcm)
