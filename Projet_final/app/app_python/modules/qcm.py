@@ -1,3 +1,5 @@
+from secrets import choice
+from click import echo
 import mariadb
 
 class Qcm:
@@ -151,3 +153,18 @@ class Qcm:
             return 'La question a bien été supprimée'
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '
+    
+    # répondre au QCM
+    def repondre_qcm(self, question):
+        for qcm in question:
+            print(qcm["question"])
+            for answer in question["answers"].split(","):
+                print("- ", answer)
+            user_answer = input("Write the corrert answer: ")
+            # loop back if answers is not in answers
+            if user_answer == question["correct_answer"]:
+                print("You are correct!")
+            else:
+                print("Sorry but the correct answer was ", 
+                question["correct_answer"])
+            print("\n")
