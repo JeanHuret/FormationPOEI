@@ -9,16 +9,23 @@ connexion = bdd.connect()
 
 choix_donnees = input('Choisir : 1 - Membre, 2 - Admin : ')
 if choix_donnees == "1":
-    questionnaire = Qcm(utilisateurs, connexion)
+    questionnaire = Qcm(connexion)
     membre = utilisateurs.Membre(utilisateurs, connexion)
     choix = input('Choisir : 1 - Liste des QCM, 2 - \
-     Faire un QCM 3 - Modifier ses informations : ')
+Faire un QCM 3 - Modifier ses informations : ')
     if choix == "1":
         for un_qcm in questionnaire.liste_data_qcm():
             print(un_qcm)
     elif choix == "2":
-        donnees_qcm = questionnaire.saisie_data_qcm()
-        print(questionnaire.ajouter_data_qcm(donnees_qcm))
+        choix_id = input( 'Choisir l\'id du QCM : ')
+        QCM_choisi = questionnaire.voir_data_qcm(choix_id)
+        print(QCM_choisi[3:7])
+        choix_reponse = input('Quelle est votre réponse ? : ')    
+        bonne_reponse = QCM_choisi[5]
+        if choix_reponse == bonne_reponse :
+            print('bonne reponse')
+        else: 
+            print('mauvaise réponse ! Essaie encore !')
     elif choix == "3":
         identifiant = input('Quel est le pseudo à modifier ? : ')
         donnees_utilisateur = membre.saisie_utilisateur()
@@ -29,11 +36,11 @@ elif choix_donnees == "2":
     questionnaire = Qcm(connexion)
     admin = utilisateurs.Admin(utilisateurs, connexion)
     choix_utilisateur_qcm = input('Choisir : 1 - Gérer les utilisateurs \
-    2 - Gérer les QCM : ')
+2 - Gérer les QCM : ')
     if choix_utilisateur_qcm == "1":
         choix = input('Choisir : 1 - Liste des utilisateurs, \
-         2 - Ajouter un utilisateur, 3 - Voir un utilisateur,\
-         4 - Modifier un utilisateur, 5 - Supprimer un utilisateur : ')
+2 - Ajouter un utilisateur, 3 - Voir un utilisateur,\
+4 - Modifier un utilisateur, 5 - Supprimer un utilisateur : ')
         if choix == "1":
             for un_utilisateur in admin.listeUtilisateurs():
                 print(un_utilisateur)
@@ -54,7 +61,7 @@ elif choix_donnees == "2":
             print("Merci de saisir un choix valide")
     elif choix_utilisateur_qcm == "2":
         choix = input('Choisir : 1 - Liste QCM,  2 - Ajouter un QCM,\
-            3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
+3 - Voir un QCM, 4 - Modifier un QCM , 5 - Supprimer un QCM : ')
         if choix == "1":
             for un_qcm in questionnaire.liste_data_qcm():
                 print(un_qcm)

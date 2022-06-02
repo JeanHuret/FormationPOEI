@@ -1,5 +1,3 @@
-from secrets import choice
-from click import echo
 import mariadb
 
 class Qcm:
@@ -76,13 +74,13 @@ class Qcm:
     def saisie_data_qcm(self, liste_qcm = []):
         if liste_qcm:
             liste_qcm = Qcm(liste_qcm)
-            qcm_id = input('Quel est l\'id du qcm?('+str(liste_qcm[1])+')' ) or liste_qcm[1] 
-            categorie = input('Quel est la categorie?('+str(liste_qcm[2])+')') or liste_qcm[2] 
-            categorie_id = input('Quel est la categorie_id?('+str(liste_qcm[2])+')') or liste_qcm[3] 
-            question = input('Quel est la question?('+str(liste_qcm[2])+')') or liste_qcm[4] 
-            reponse1 = input('Quel est la premiere reponse possible a la question?('+str(liste_qcm[3])+')') or liste_qcm[5] 
-            reponse2 = input('Quel est la deuxieme reponse possible a la question?('+str(liste_qcm[4])+')') or liste_qcm[6]
-            reponse3 = input('Quel est la troisieme reponse possible a la question?('+str(liste_qcm[5])+')') or liste_qcm[7]
+            qcm_id = input('Quel est l\'id du qcm? : ('+str(liste_qcm[1])+')' ) or liste_qcm[1] 
+            categorie = input('Quel est la categorie? : ('+str(liste_qcm[2])+')') or liste_qcm[2] 
+            categorie_id = input('Quel est la categorie_id? : ('+str(liste_qcm[2])+')') or liste_qcm[3] 
+            question = input('Quel est la question? : ('+str(liste_qcm[2])+')') or liste_qcm[4] 
+            reponse1 = input('Quel est la premiere reponse possible a la question? : ('+str(liste_qcm[3])+')') or liste_qcm[5] 
+            reponse2 = input('Quel est la deuxieme reponse possible a la question? : ('+str(liste_qcm[4])+')') or liste_qcm[6]
+            reponse3 = input('Quel est la troisieme reponse possible a la question? : ('+str(liste_qcm[5])+')') or liste_qcm[7]
             ancien_id = liste_qcm[0]
             liste_qcm[0] = qcm_id
             liste_qcm[1] = categorie
@@ -94,13 +92,13 @@ class Qcm:
             liste_qcm[7] = ancien_id
 
         else:
-            qcm_id = int(input('Quel est l\'id du qcm?'))
-            categorie = input('Quel est la categorie?')
-            categorie_id = int(input('Quel est la categorie_id?'))
-            question = input('Quel est la question?') 
-            reponse1 = input('Quel est la premiere reponse possible a la question?')
-            reponse2 = input('Quel est la deuxieme reponse possible a la question?')
-            reponse3 = input('Quel est la troisieme reponse possible a la question?')
+            qcm_id = int(input('Quel est l\'id du qcm? : '))
+            categorie = input('Quel est la categorie? : ')
+            categorie_id = int(input('Quel est la categorie_id? : '))
+            question = input('Quel est la question? : ') 
+            reponse1 = input('Quel est la premiere reponse possible a la question? : ')
+            reponse2 = input('Quel est la deuxieme reponse possible a la question? : ')
+            reponse3 = input('Quel est la troisieme reponse possible a la question? : ')
             liste_qcm.append(qcm_id)
             liste_qcm.append(categorie)
             liste_qcm.append(categorie_id)
@@ -152,19 +150,4 @@ class Qcm:
             self.__connexion.commit()
             return 'La question a bien été supprimée'
         except mariadb.Error as e:     
-            return f'Erreur lors de la suppression {e} '
-    
-    # répondre au QCM
-    def repondre_qcm(self, question):
-        for qcm in question:
-            print(qcm["question"])
-            for answer in question["answers"].split(","):
-                print("- ", answer)
-            user_answer = input("Write the corrert answer: ")
-            # loop back if answers is not in answers
-            if user_answer == question["correct_answer"]:
-                print("You are correct!")
-            else:
-                print("Sorry but the correct answer was ", 
-                question["correct_answer"])
-            print("\n")
+            return f'Erreur lors de la suppression {e} '            
