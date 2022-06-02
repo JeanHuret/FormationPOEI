@@ -1,7 +1,5 @@
-DROP DATABASE questionnaire;
-CREATE DATABASE if not exists questionnaire;
-  
-USE questionnaire;
+CREATE DATABASE IF NOT EXISTS data_qcm;
+USE data_qcm;
 
 CREATE TABLE IF NOT EXISTS QCM (
 

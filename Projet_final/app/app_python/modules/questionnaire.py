@@ -1,6 +1,6 @@
 import mariadb
 
-class Questionnaire:
+class Qcm:
 
     def __init__(self, connexion) -> None:
         # Propriété de l'objet application
@@ -64,14 +64,14 @@ class Questionnaire:
             self.__reponse3 = reponse3  
 
     # Lister les questionnaire avec les caractéristiques suivantes : 
-    def liste_questionnaire(self):
-        cursor = self.__questionnaire.cursor()
+    def liste_data_qcm(self):
+        cursor = self.__data_qcm.cursor()
         cursor.execute('SELECT * FROM QCM;')
         liste_questionnaire = cursor.fetchall()
         return liste_questionnaire
 
 
-    def saisie_questionnaire(self, liste_donnees = []):
+    def saisie_data_qcm(self, liste_donnees = []):
         if liste_donnees:
             liste_donnees = list(liste_donnees)
             qcm_id = input('Quel est l\'id du qcm?('+str(liste_donnees[1])+')' ) or liste_donnees[1] 
@@ -110,7 +110,7 @@ class Questionnaire:
         return liste_donnees
 
     # • Permettre l’ajout d’une application
-    def ajouter_questionnaire(self, liste_donnees):
+    def ajouter_data_qcm(self, liste_donnees):
         try:
             cursor = self.__connexion.cursor()
             cursor.execute('INSERT INTO QCM ( `categorie`, `categorie_id`, `question`, `reponse1`, `reponse2`, `reponse3`)  VALUES (?, ?, ?, ?, ?, ?);',(liste_donnees[0], liste_donnees[1], liste_donnees[2], liste_donnees[3], liste_donnees[4], liste_donnees[5], liste_donnees[6]))
@@ -120,30 +120,30 @@ class Questionnaire:
             return f'Erreur lors de la suppression {e} '
 
 
-    def trouver_unquestionnaire(self,questionnaire):
+    def trouver_data_qcm(self,questionnaire):
         cursor = self.__connexion.cursor()
         cursor.execute('SELECT * FROM QCM WHERE qcm_id = ?;',(questionnaire,))
-        questionnaire_a_afficher = cursor.fetchone()
-        return questionnaire_a_afficher
+        qcm_a_afficher = cursor.fetchone()
+        return qcm_a_afficher
 
     # Permettre de récupérer les informations d’une application en saisissant son hostname
-    def voir_questionnaire(self, questionnaire) :
-        questionnaire_a_afficher = self.trouver_unquestionnaire(questionnaire)
-        return questionnaire_a_afficher
+    def voir_data_qcm(self, questionnaire) :
+        qcm_a_afficher = self.trouver_unqcm(questionnaire)
+        return qcm_a_afficher
     
     # Permettre de modifier une application à partir de son hostname
-    def modifier_questionnaire(self, nouvelle_donnees):
+    def modifier_data_qcm(self, nouvelle_donnees):
         print(nouvelle_donnees)
         try: 
             cursor = self.__connexion.cursor()
             cursor.execute('UPDATE QCM SET `categorie` = ?, `categorie_id` = ?, `question` = ?, `reponse1` = ?, `reponse2` = ?, `reponse3` = ? WHERE `qcm_id` = ?;',(nouvelle_donnees[1], nouvelle_donnees[2], nouvelle_donnees[3], nouvelle_donnees[4], nouvelle_donnees[5], nouvelle_donnees[6], nouvelle_donnees[0],))
             self.__connexion.commit()
-            return self.voir_questionnaire(nouvelle_donnees[0])
+            return self.voir_data_qcm(nouvelle_donnees[0])
         except mariadb.Error as e:     
             return f'Erreur lors de la suppression {e} '
 
     # Permettre de supprimer une application
-    def supprimer_questionnaire(self, questionnaire):
+    def supprimer_data_qcm(self, questionnaire):
         try :
             cursor = self.__connexion.cursor()
             cursor.execute('DELETE FROM QCM WHERE qcm_id = ?;',(questionnaire,))
