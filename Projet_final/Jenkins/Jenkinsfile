@@ -1,5 +1,8 @@
 pipeline {
  agent any
+    environment {
+            PATH = "/var/jenkins_home/.local/bin:${env.PATH}"
+        }
   stages {
     stage('clone'){
       steps {
@@ -44,17 +47,15 @@ pipeline {
       }
     }
   }      
-  post {
-       always{
-             post {
+        post {
           always {
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'Gradle/test-reports', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
+            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'test-reports', reportFiles: 'index.html', reportName: 'Flake 8 violations', reportTitles: ''])
             recordIssues(
                     tools: [pep8(pattern: 'Projet_final/app/app_python/test-reports/flake8/result-pycode.report')]
                 )
-            junit 'Projet_final/app/app_python/test-reports/flake8/*.xml'
-          }
-      }
+           // junit 'Projet_final/app/app_python/test-reports/flake8/*.xml'
+          
+      
     }
   }
 }

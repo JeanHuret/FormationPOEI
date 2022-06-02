@@ -15,13 +15,13 @@ task dependance(type:Exec, dependsOn:purge){
   
 task lint (type:Exec, dependsOn:dependance){
     executable 'sh'
-    args '-c', 'mkdir -p test-reports/flake8 && flake8 . --output-file=test-reports/flake8/flake8.txt && flake8_junit test-reports/flake8/flake8.txt test-reports/flake8/flake8_junit.xml'
+    args '-c', 'mkdir -p test-reports/flake8 && flake8 --format=html --htmldir=test-reports/flake8 ./*.py'
     ignoreExitValue true
 }
 
 task pycodestyle(type:Exec, dependsOn:lint) {
     executable 'sh'
-    args '-c', "pycodestyle test-reports/flake8/ >> result-pycode.report"
+    args '-c', "pycodestyle ./*.py >> result-pycode.report"
     ignoreExitValue true
 }
    
