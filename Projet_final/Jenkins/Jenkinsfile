@@ -1,7 +1,7 @@
 pipeline {
  agent any
     environment {
-            PATH = "/var/jenkins_home/.local/lib/python3.9/site-packages:/usr/lib/python3/dist-packages:${env.PATH}"
+            PATH = "/var/jenkins_home/.local/lib/python3.9/site-packages:/var/jenkins_home/.local/bin:${env.PATH}"
         }
   stages {
     stage('clone'){
