@@ -74,6 +74,6 @@ elif choix_donnees == "2":
         else:
             print("Merci de saisir un choix valide")
     else:
-        print("Merci de saisir un choix valide")        
+        print("Merci de saisir un choix valide") 
 else:
     print("Merci de saisir un choix valide")
